@@ -3,10 +3,10 @@ ja:
   activerecord:
     attributes:
       category:
-        cat_name: "カテゴリー名"
+        cat_name: "カテゴリ名"
       fixed_cost:
         monthly: "月額"
-        category: カテゴリー
+        category: カテゴリ
         monthly_annual:
       user:
         monthly: "月額"

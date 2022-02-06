@@ -25,24 +25,18 @@
 
         <div class="card-body pb-1">
           <h6 class="card-title">
-            <!-- <div class=" d-flex flex-row "> -->
               <div class="">
                 <div class="">
                   <% if user.image.present? %>
                       <%= image_tag user.image.url, class: "rounded-circle", width: "10%" if user.image && user.image.url %>
                   <% end %>
-                <!-- </div>
-                <div class=""> -->
                   <%= link_to "#{user.name}", user_path(user.id) %>
                 </div>
-            <!-- </div> -->
                 <div class="mt-1">
                   月額支出：<strong><%= total_monthly.sum.to_s(:delimited) %>円</strong>
                 </div>
               </div>
-            <!-- </div> -->
           </h6>
-
         </div>
         <div class="card-footer bg-transparent">
           <small><%= l user.updated_at, format: :mid %></small>
