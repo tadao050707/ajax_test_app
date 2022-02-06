@@ -22,19 +22,17 @@
    flex: 1;
    background-color: #f8f9fa;
  }
- /* .dis_login {
-   flex: 1;
-   min-height: 90vh;
-   background-color: red;
- } */
+.dis_login {
+  background-color: aqua;
+}
 
  .no-gutters {
    margin:0;
    padding:0;
  }
 
- .no-gutters　> .col,
- .no-gutters　> [class*="col-"] {
+ .no-gutters > .col,
+ .no-gutters > [class*="col-"] {
    margin:0;
    padding:0;
  }

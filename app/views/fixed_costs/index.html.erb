@@ -11,14 +11,11 @@
     <% @users.each do |user| %>
       <!-- <div class="card shadow-sm card-center" style="max-width: 25rem; margin-bottom: 10px "> -->
       <div class="card shadow-sm mb-2" style="max-width: 25rem; margin: 0 auto; ">
-        <% total_annual = [] %>
         <% total_monthly = [] %>
         <% user.fixed_costs.each do |fixed_cost| %>
           <% if fixed_cost.monthly_annual == "annual" %>
-            <% total_annual << fixed_cost.payment %>
             <% total_monthly << monthly_payment(fixed_cost) %>
           <% elsif fixed_cost.monthly_annual == "monthly" %>
-            <% total_annual << annual_payment(fixed_cost) %>
             <% total_monthly << fixed_cost.payment %>
           <% end %>
         <% end %>

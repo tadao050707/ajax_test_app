@@ -7,7 +7,6 @@
       <h2><%= image_tag @user.image.url, class: "rounded-circle" if @user.image && @user.image.url || @user.image.present? %>
       <%= @user.name %>さんの固定支出</h2>
       <br>
-      <%#= link_to "マイページ", mypage_user_path if current_user.id == @user.id %>
       <% if current_user.id != @user.id %>
         <h4>プロフィール</h4>
         <%= @user.profile %>
@@ -27,21 +26,13 @@
       <% total_annual = [] %>
       <% total_monthly = [] %>
       <% @fixed_costs.each do |fixed_cost| %>
-        <% if @monthly_view == "true" && fixed_cost.monthly_annual == "annual" %>
-          <% total_monthly << monthly_payment(fixed_cost) %>
-        <% elsif @monthly_view == "true" && fixed_cost.monthly_annual == "monthly" %>
-          <% total_monthly << fixed_cost.payment %>
-        <% elsif @monthly_view == "false" && fixed_cost.monthly_annual == "monthly" %>
-          <% total_annual << annual_payment(fixed_cost) %>
-        <% else %>
-          <% total_annual << fixed_cost.payment %>
-        <% end %>
+        <% switch_annual_monthly(total_annual, total_monthly, @monthly_view, fixed_cost) %>
       <% end %>
 
       <% if @monthly_view == "true" %>
         <%= pie_chart @costs,library: {title: {text: "月額支出<br>#{total_monthly.sum.to_s(:delimited)}円 "}} %>
       <% else %>
-      <%= pie_chart @costs,library: {title: {text: "年額支出<br>#{total_annual.sum.to_s(:delimited)}円 "}} %>
+        <%= pie_chart @costs,library: {title: {text: "年額支出<br>#{total_annual.sum.to_s(:delimited)}円 "}} %>
       <% end %>
 
       <table class="table table-sm">
