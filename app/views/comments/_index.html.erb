@@ -12,7 +12,7 @@
       </p>
 
       <% if current_user.id == comment.send_user %>
-        <td><%= link_to "コメント編集", edit_user_comment_path(user, comment), remote: true, class: 'btn btn-outline-primary btn-sm' %></td>
+        <%#= link_to "コメント編集", edit_user_comment_path(user, comment), remote: true, class: 'btn btn-outline-primary btn-sm' %>
         <%= link_to "コメント削除", user_comment_path(comment.user_id, comment.id), class: 'btn btn-outline-danger btn-sm', method: :delete, remote: true, data: { confirm: "本当に削除しますか?"} %>
       <% end %>
     </li>
