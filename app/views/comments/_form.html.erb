@@ -12,7 +12,7 @@
 
   <div class="row">
     <div class="col-1 align-self-center p-0">
-      <%= image_tag @user.image.url, class: "rounded-circle", size: "50x50" if @user.image && @user.image.url || @user.image.present? %>
+      <%= image_tag current_user.image.url, class: "rounded-circle", size: "50x50" if current_user.image && current_user.image.url || current_user.image.present? %>
     </div>
 
     <div class="col-10 mx-0">
