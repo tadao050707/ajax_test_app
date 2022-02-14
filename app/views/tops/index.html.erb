@@ -1,19 +1,24 @@
-<div class="container-fluid bg-white">
-  <h1>倹約アプリ（仮タイトル）</h1>
-  <br>
-  <h2>みんなの固定支出を参考にして</h2>
-  <h2>まずは固定費の見直しから始めまてみましょう！</h2>
-  <br><br>
-  <p>毎日家計簿をつける手間はなく</p>
-  <p>固定支出のみ登録・管理するアプリです</p>
-  <br>
-  <p>変動費よりも固定費を見直せば</p>
-  <p>生活水準が今と変わらず</p>
-  <p>節約によるストレスもなく</p>
-  <p>財畜しやすくなります</p>
-  <br>
-  <p>アカウント作成なしに</p>
-  <%= link_to "みんなの固定支出はこちらからみれます", fixed_costs_path, class: 'btn btn-primary' %>
-  <br><br>
-  <%= link_to I18n.t('views.messages.login'), new_user_session_path, class: "btn btn-outline-primary" %>
+<div class="jumbotron jumbotron-fluid mb-0">
+  <div class="container-fluid">
+
+
+    <h1 class="text-info">みんなの家計簿投稿</h1>
+    <br>
+    <h2>みんなの固定支出を参考にして</h2>
+    <h2>まずは固定費の見直しから始めてみましょう！</h2>
+    <br><br>
+    <p>毎日家計簿をつける手間はなく</p>
+    <p>固定支出のみ登録・管理するアプリです</p>
+    <br>
+    <p>変動費よりも固定費を見直せば</p>
+    <p>生活水準が今と変わらず</p>
+    <p>節約によるストレスもなく</p>
+    <p>財畜しやすくなります</p>
+    <br>
+    <p>アカウント作成なしに</p>
+    <%= link_to "みんなの固定支出はこちらからみれます", fixed_costs_path, class: 'btn btn-primary' %>
+    <br><br>
+    <%= link_to I18n.t('views.messages.login'), new_user_session_path, class: "btn btn-outline-primary" %>
+
+  </div>
 </div>

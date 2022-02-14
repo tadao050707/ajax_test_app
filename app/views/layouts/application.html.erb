@@ -5,18 +5,18 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-
     <meta name="viewport" content="width=devise-width, initial-scale=1.0" />
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %><!--追加 -->
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
   </head>
 
   <body>
     <header class="sticky-top">
       <nav class="navbar navbar-inverse navbar-expand-md navbar-light bg-light ">
-        <%= link_to "倹約アプリ(ロゴ)", root_path, id: "logo" %>
+        <%= link_to "みんなの家計簿投稿", root_path, id: "logo", class: "font-weight-bold" %>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarDrop" aria-controls="navbarDrop" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -28,7 +28,7 @@
                 <%= link_to "みんなの投稿", fixed_costs_path, class: "text-secondary" %>
               </li>
               <li class="nav-item ml-3">
-                <%= link_to "固定支出表", user_path(current_user.id), class: "text-secondary" %>
+                <%= link_to "家計簿", user_path(current_user.id), class: "text-secondary" %>
               </li>
               <li class="nav-item ml-3">
                 <%= link_to "マイページ", mypage_user_path(current_user.id), class: "text-secondary" %>

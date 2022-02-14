@@ -4,14 +4,15 @@
     </div>
 
     <div class="col-md-6">
-      <h2><%= image_tag @user.image.url, class: "rounded-circle" if @user.image && @user.image.url || @user.image.present? %>
+      <h2 class="text-center"><%= image_tag @user.image.url, class: "rounded-circle" if @user.image && @user.image.url || @user.image.present? %>
       <%= @user.name %>さんの固定支出</h2>
       <br>
       <% if current_user.id != @user.id %>
         <h4>プロフィール</h4>
         <%= @user.profile %>
       <% end %>
-      <br>
+
+      <div class="text-center">
 
         <% if current_user.id == @user.id %>
           <%= link_to "品目追加", new_fixed_cost_path, class: "btn btn-success btn-sm" %>
@@ -22,18 +23,21 @@
         <% else %>
           <%= link_to "月額表示", user_path(params[:id], monthly_view: "true"), class: "btn btn-primary btn-sm" %>
         <% end %>
+      </div>
 
-        <% total_annual = [] %>
-        <% total_monthly = [] %>
-        <% @fixed_costs.each do |fixed_cost| %>
-          <% switch_annual_monthly(total_annual, total_monthly, @monthly_view, fixed_cost) %>
-        <% end %>
-
+      <% total_annual = [] %>
+      <% total_monthly = [] %>
+      <% @fixed_costs.each do |fixed_cost| %>
+        <% switch_annual_monthly(total_annual, total_monthly, @monthly_view, fixed_cost) %>
+      <% end %>
+      <div class="mx-auto" style="width: 350px;">
         <% if @monthly_view == "true" %>
           <%= pie_chart @costs,library: {title: {text: "月額支出<br>#{total_monthly.sum.to_s(:delimited)}円 "}} %>
         <% else %>
           <%= pie_chart @costs,library: {title: {text: "年額支出<br>#{total_annual.sum.to_s(:delimited)}円 "}} %>
         <% end %>
+      </div>
+
 
       <table class="table table-sm">
         <thead class="thead-light">
