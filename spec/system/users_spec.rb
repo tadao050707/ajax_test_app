@@ -31,9 +31,9 @@ RSpec.describe "Users", type: :system do
         visit new_user_session_path
         fill_in 'メールアドレス', with: 'admin@test.com'
         fill_in 'パスワード', with: 'testuser'
-        # find('.actions').click
         click_button "ログイン"
-        click_on "管理者画面"
+        # click_on "管理者画面"
+        find("#id_admin").click
         expect(page).to have_selector '.page-header', text: 'サイト管理'
       end
     end
