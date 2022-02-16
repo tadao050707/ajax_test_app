@@ -23,9 +23,10 @@ RSpec.describe "FixedCosts", type: :system do
     context '固定費を登録した場合' do
       it '登録される' do
         click_on '品目追加'
+        binding.pry
         select '保険', from: 'fixed_cost_category_ids'
         select '月額', from: 'fixed_cost_monthly_annual'
-        fill_in '金額', with: '2000'
+        fill_in 'fixed_cost_payment', with: '2000'
         fill_in '詳細', with: '医療保険'
         click_on '登録する'
         expect(page).to have_content '登録しました'
@@ -36,7 +37,7 @@ RSpec.describe "FixedCosts", type: :system do
         all('tbody td')[4].click_on '編集'
         select '住宅費', from: 'fixed_cost_category_ids'
         select '年額', from: 'fixed_cost_monthly_annual'
-        fill_in '金額', with: '600000'
+        fill_in 'fixed_cost_payment', with: '600000'
         fill_in '詳細', with: '家賃'
         click_on '更新する'
         expect(page).to have_content '変更しました'

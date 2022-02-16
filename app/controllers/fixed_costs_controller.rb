@@ -1,5 +1,6 @@
 class FixedCostsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
+  # before_action :login_check, except: [:index]
   before_action :set_fixed_cost, only: %i[ edit update destroy ]
 
   def index

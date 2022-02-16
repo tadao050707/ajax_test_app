@@ -1,16 +1,23 @@
-<h1><%= @user.name %> さんのマイページ</h1>
-<br>
-<%= link_to "アカウント設定",edit_user_registration_path if current_user.id == @user.id %>
-<br>
-<% if @user.image.present? %>
-  <p>
-    <strong>Image:</strong>
-    <%= image_tag @user.image.url, class: "rounded-circle" if @user.image && @user.image.url %>
-  </p>
-<% end %>
-<br>
-<h4>名前: <%= @user.name %></h4>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-4">
+      <%= link_to "アカウント設定",edit_user_registration_path if current_user.id == @user.id %>
 
-<h4>プロフィール</h4>
-<%= @user.profile %>
-<br><br>
+    </div>
+
+    <div class="col-sm-4">
+
+      <% if @user.image.present? %>
+          <%= image_tag @user.image.url, class: "rounded-circle" if @user.image && @user.image.url %>
+      <% end %>
+      <h4 class="mt-1">名前 <%= @user.name %></h4>
+
+      <h4>プロフィール</h4>
+      <%= @user.profile %>
+      <br><br>
+    </div>
+
+    <div class="col-sm-4">
+    </div>
+  </div>
+</div>

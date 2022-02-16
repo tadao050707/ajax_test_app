@@ -1,30 +1,48 @@
-<table class="table table-sm">
-  <thead class="thead-light">
-    <tr>
-      <th>名前</th>
-      <th>月額合計支出</th>
-      <th>年間合計支出</th>
-    </tr>
-  </thead>
+<!-- <div class="container-fluid mx-auto" style="width: 100rem"> -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3">
+    </div>
 
-  <tbody class="all_cost">
+    <div class="col-sm-6" >
+    <!-- <div class="d-flex justify-content-center"> -->
+    <h2 class="text-center">みんなの固定費一覧画面</h2>
+    <!-- カードで設計 -->
     <% @users.each do |user| %>
-      <% total_annual = [] %>
-      <% total_monthly = [] %>
-      <% user.fixed_costs.each do |fixed_cost| %>
-        <% if fixed_cost.monthly_annual == "annual" %>
-          <% total_annual << fixed_cost.payment %>
-          <% total_monthly << monthly_payment(fixed_cost) %>
-        <% elsif fixed_cost.monthly_annual == "monthly" %>
-          <% total_annual << annual_payment(fixed_cost) %>
-          <% total_monthly << fixed_cost.payment %>
+      <!-- <div class="card shadow-sm card-center" style="max-width: 25rem; margin-bottom: 10px "> -->
+      <div class="card shadow-sm mb-2" style="max-width: 25rem; margin: 0 auto; ">
+        <% total_monthly = [] %>
+        <% user.fixed_costs.each do |fixed_cost| %>
+          <% if fixed_cost.monthly_annual == "annual" %>
+            <% total_monthly << monthly_payment(fixed_cost) %>
+          <% elsif fixed_cost.monthly_annual == "monthly" %>
+            <% total_monthly << fixed_cost.payment %>
+          <% end %>
         <% end %>
-      <% end %>
-      <tr>
-      <td><%= link_to "#{user.name}", user_path(user.id) %></td>
-      <td><%= total_monthly.sum %></td>
-      <td><%= total_annual.sum %></td>
-      </tr>
+
+        <div class="card-body pb-1">
+          <h6 class="card-title">
+              <div class="">
+                <div class="">
+                  <% if user.image.present? %>
+                      <%= image_tag user.image.url, class: "rounded-circle", width: "10%" if user.image && user.image.url %>
+                  <% end %>
+                  <%= link_to "#{user.name}", user_path(user.id) %>
+                </div>
+                <div class="mt-1">
+                  月額支出：<strong><%= total_monthly.sum.to_s(:delimited) %>円</strong>
+                </div>
+              </div>
+          </h6>
+        </div>
+        <div class="card-footer bg-transparent">
+          <small><%= l user.updated_at, format: :mid %></small>
+        </div>
+      </div>
     <% end %>
-  </tbody>
-</table>
+  </div>
+
+  <div class="col-sm-3">
+  </div>
+</div>
+</div>

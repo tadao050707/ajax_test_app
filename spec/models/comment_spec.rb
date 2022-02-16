@@ -10,5 +10,11 @@ RSpec.describe Comment, type: :model do
         expect(comment).to be_invalid
       end
     end
+    context 'コメントを空で入力した場合' do
+      it 'バリデーションエラーになる' do
+        comment = Comment.new(content: '', user: user)
+        expect(comment).to be_invalid
+      end
+    end
   end
 end

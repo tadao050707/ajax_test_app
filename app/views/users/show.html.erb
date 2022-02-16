@@ -1,109 +1,103 @@
-<h2><%= image_tag @user.image.url, class: "rounded-circle" if @user.image && @user.image.url || @user.image.present? %>
-<%= @user.name %>さんの固定支出</h2>
-<br>
-<%= link_to "マイページ", mypage_user_path if current_user.id == @user.id %>
-<br><br>
-<% if current_user.id != @user.id %>
-<br>
-<h4>プロフィール</h4>
-<%= @user.profile %>
-<% end %>
+<div class="container-fluid bg-white">
+  <div class="row">
+    <div class="col-md-3">
+    </div>
 
-<br><br>
-<h1>固定支出一覧</h1>
-<br><br>
+    <div class="col-md-6">
+      <h2 class="text-center"><%= image_tag @user.image.url, class: "rounded-circle" if @user.image && @user.image.url || @user.image.present? %>
+      <%= @user.name %>さんの固定支出</h2>
+      <br>
+      <% if current_user.id != @user.id %>
+        <h4>プロフィール</h4>
+        <%= @user.profile %>
+      <% end %>
 
-<% if current_user.id == @user.id %>
-  <%= link_to "品目追加", new_fixed_cost_path, class: "btn btn-success btn-sm" %>
-  <%= link_to "カテゴリー作成", new_category_path,class: "btn btn-secondary btn-sm" %>
-<% end %>
-<% if @monthly_view == "true" %>
-  <%= link_to "年額表示", user_path(params[:id], monthly_view: "false"), class: "btn btn-primary btn-sm" %>
-<% else %>
-  <%= link_to "月額表示", user_path(params[:id], monthly_view: "true"), class: "btn btn-primary btn-sm" %>
-<% end %>
+      <div class="text-center">
 
-<%= pie_chart @costs, donut: true, suffix: "円" %>
-<% if false %>
-<%= pie_chart @costs,library: {title: {text: "支出<br>#{@total_monthly.sum}円 "}} %>
-<% end %>
+        <% if current_user.id == @user.id %>
+          <%= link_to "品目追加", new_fixed_cost_path, class: "btn btn-success btn-sm" %>
+          <%= link_to "カテゴリー作成", new_category_path,class: "btn btn-secondary btn-sm" %>
+        <% end %>
+        <% if @monthly_view == "true" %>
+          <%= link_to "年額表示", user_path(params[:id], monthly_view: "false"), class: "btn btn-primary btn-sm" %>
+        <% else %>
+          <%= link_to "月額表示", user_path(params[:id], monthly_view: "true"), class: "btn btn-primary btn-sm" %>
+        <% end %>
+      </div>
 
-<% total_annual = [] %>
-<% total_monthly = [] %>
-<% @fixed_costs.each do |fixed_cost| %>
-  <% if @monthly_view == "true" && fixed_cost.monthly_annual == "annual" %>
-    <% total_monthly << monthly_payment(fixed_cost) %>
-  <% elsif @monthly_view == "true" && fixed_cost.monthly_annual == "monthly" %>
-    <% total_monthly << fixed_cost.payment %>
-  <% elsif @monthly_view == "false" && fixed_cost.monthly_annual == "monthly" %>
-    <% total_annual << annual_payment(fixed_cost) %>
-  <% else %>
-    <% total_annual << fixed_cost.payment %>
-  <% end %>
-<% end %>
+      <% total_annual = [] %>
+      <% total_monthly = [] %>
+      <% @fixed_costs.each do |fixed_cost| %>
+        <% switch_annual_monthly(total_annual, total_monthly, @monthly_view, fixed_cost) %>
+      <% end %>
+      <div class="mx-auto" style="width: 350px;">
+        <% if @monthly_view == "true" %>
+          <%= pie_chart @costs,library: {title: {text: "月額支出<br>#{total_monthly.sum.to_s(:delimited)}円 "}} %>
+        <% else %>
+          <%= pie_chart @costs,library: {title: {text: "年額支出<br>#{total_annual.sum.to_s(:delimited)}円 "}} %>
+        <% end %>
+      </div>
 
-<% if @monthly_view == "true" %>
-  <h3>月額合計支出：<%= total_monthly.sum %>円</h3>
-<% else %>
-  <h3>年間合計支出：<%= total_annual.sum %>円</h3>
-<% end %>
 
-<br>
+      <table class="table table-sm">
+        <thead class="thead-light">
+          <tr>
+            <th>カテゴリー</th>
+            <th></th>
+            <th>金額</th>
+            <th>詳細</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
 
-<br>
-<table class="table table-hover table-sm">
-  <thead class="thead-light">
-    <tr>
-      <th>カテゴリー</th>
-      <th></th>
-      <th>金額</th>
-      <th>詳細</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+        <% @fixed_costs.includes(:categories).each do |fixed_cost| %><!-- userのfixed_costテーブル中身 -->
+        <tbody class="fixed_cost">
+          <tr>
+          <% unless fixed_cost.categories.present? %>
+            <td></td>
+          <% else %>
+            <td><%= fixed_cost.categories.map(&:cat_name).first %></td>
+          <% end %>
+          <% if @monthly_view == "true" && fixed_cost.monthly_annual == "annual" %>
+            <td><%= I18n.t('views.words.monthly') %></td>
+            <td><%= monthly_payment(fixed_cost).to_s(:delimited) %>円 </td>
+          <% elsif @monthly_view == "false" && fixed_cost.monthly_annual == "monthly" %>
+            <td><%= I18n.t('views.words.annual') %></td>
+            <td><%= annual_payment(fixed_cost).to_s(:delimited) %>円 </td>
+          <% else %>
+            <td><%= fixed_cost.monthly_annual_i18n %></td>
+            <td><%= fixed_cost.payment.to_s(:delimited) %>円 </td>
+          <% end %>
+          <td><%= fixed_cost.content %></td>
+          <% if fixed_cost.user == current_user %>
+            <td><%= link_to '編集', edit_fixed_cost_path(fixed_cost.id), class: 'btn btn-outline-primary btn-sm' %></td>
+            <td><%= link_to '削除', fixed_cost_path(fixed_cost.id), method: :delete, class: 'btn btn-outline-danger btn-sm', data: { confirm: "削除していいですか？"} %></td>
+          <% else %>
+            <td></td>
+            <td></td>
+          <% end %>
+          </tr>
+        </tbody>
+        <% end %>
+      </table>
 
-  <% @fixed_costs.includes(:categories).each do |fixed_cost| %><!-- userのfixed_costテーブル中身 -->
-  <tbody class="fixed_cost">
-    <tr>
+      <hr>
+      <!-- <div class="text-danger"> -->
+      <span class="text-danger">
+        <p id="notice"><%= flash[:notice1] %></p>
+      </span>
+      <!-- </div> -->
 
-    <% unless fixed_cost.categories.present? %>
-      <td></td>
-    <% else %>
-      <td><%= fixed_cost.categories.map(&:cat_name).first %></td>
-    <% end %>
+      <p>コメント一覧</p>
+      <div id="comments_area">
+        <%= render partial: 'comments/index', locals: { comments: @comments, user: @user } %>
+      </div>
+      <%= render partial: 'comments/form', locals: { comment: @comment, user: @user } %>
+      <%= link_to '戻る' %>
+    </div>
 
-    <% if @monthly_view == "true" && fixed_cost.monthly_annual == "annual" %>
-      <td><%= I18n.t('views.words.monthly') %></td>
-      <td><%= monthly_payment(fixed_cost) %>円 </td>
-    <% elsif @monthly_view == "false" && fixed_cost.monthly_annual == "monthly" %>
-      <td><%= I18n.t('views.words.annual') %></td>
-      <td><%= annual_payment(fixed_cost) %>円 </td>
-    <% else %>
-      <td><%= fixed_cost.monthly_annual_i18n %></td>
-      <td><%= fixed_cost.payment %>円 </td>
-    <% end %>
-
-      <td><%= fixed_cost.content %></td>
-
-    <% if fixed_cost.user == current_user %>
-      <td><%= link_to '編集', edit_fixed_cost_path(fixed_cost.id), class: 'btn btn-primary btn-sm' %></td>
-      <td><%= link_to '削除', fixed_cost_path(fixed_cost.id), method: :delete, class: 'btn btn-danger btn-sm', data: { confirm: "削除していいですか？"} %></td>
-    <% else %>
-      <td></td>
-      <td></td>
-    <% end %>
-
-    </tr>
-  </tbody>
-  <% end %>
-</table>
-
-<hr>
-<p id="notice"><%= flash[:notice1] %></p>
-<p>コメント一覧</p>
-<div id="comments_area">
-  <%= render partial: 'comments/index', locals: { comments: @comments, user: @user } %>
+    <div class="col-md-3">
+    </div>
+  </div>
 </div>
-<%= render partial: 'comments/form', locals: { comment: @comment, user: @user } %>
-<%= link_to '戻る' %>

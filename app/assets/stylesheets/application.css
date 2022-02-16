@@ -13,3 +13,29 @@
  *= require_tree .
  *= require_self
  */
+body {
+ display: flex;
+ flex-flow: column;
+ min-height: 100vh;
+}
+main {
+ flex: 1;
+ background-color: #f8f9fa;
+}
+.dis_login {
+background-color: aqua;
+}
+
+.no-gutters {
+ margin:0;
+ padding:0;
+}
+.no-gutters {
+ margin-right: 0;
+ margin-left: 0;
+}
+.no-gutters > .col,
+.no-gutters > [class*="col-"] {
+ margin-right: :0;
+ padding-left: :0;
+}

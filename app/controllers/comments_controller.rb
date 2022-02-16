@@ -8,6 +8,8 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         flash.now[:notice1] = 'コメント投稿しました'
+        # binding.pry
+        # format.html { redirect_to user_path(@user) }
         format.js { render :index }
       else
         format.html { redirect_to user_path(@comment), notice1: "投稿できませんでした"}
@@ -16,6 +18,7 @@ class CommentsController < ApplicationController
   end
 
   def edit
+    # binding.pry
     @comment = @user.comments.find(params[:id])
     respond_to do |format|
       # flash.now[:notice] = 'コメント内容を変更しました'
