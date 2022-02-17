@@ -9,7 +9,6 @@ class UsersController < ApplicationController
   def show
     user = User.find(params[:id])
     @fixed_costs = user.fixed_costs.includes(user: [:categories])
-    # @fixed_costs = @fixed_costs.eager_load(:monthly_annual)
     @comments = @user.comments
     @comment = @user.comments.build
     # flash.now[:notice1] = 'コメント内容を変更しました'
@@ -22,7 +21,6 @@ class UsersController < ApplicationController
     end
 
     # まず月額の支出だけまとめる（１）
-    # all_monthlies = @fixed_costs.joins(:categories).where("monthly_annual = ?", 0).group("categories.cat_name").sum(:payment)
     all_monthlies = @fixed_costs.joins(:categories).where(monthly_annual: 0).group("categories.cat_name").sum(:payment)
     # 年額の支出だけまとめる（２）
     all_annuals = @fixed_costs.joins(:categories).where(monthly_annual: 1).group("categories.cat_name").sum(:payment)
@@ -54,7 +52,6 @@ class UsersController < ApplicationController
       redirect_to edit_user_path(current_user)
     end
   end
-
 
   private
 
