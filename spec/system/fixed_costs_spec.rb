@@ -28,7 +28,11 @@ RSpec.describe "FixedCosts", type: :system do
         fill_in 'fixed_cost_payment', with: '2000'
         fill_in '詳細', with: '医療保険'
         click_on '登録する'
-        expect(page).to have_content '登録しました'
+        expect(page).to have_content '保険'
+        # expect(page).to have_content('保険', '月額', '2,000円', '医療保険')
+        expect(page).to have_content '月額'
+        expect(page).to have_content '2,000円'
+        expect(page).to have_content '医療保険'
       end
     end
     context '固定費を編集した場合' do
@@ -39,6 +43,11 @@ RSpec.describe "FixedCosts", type: :system do
         fill_in 'fixed_cost_payment', with: '600000'
         fill_in '詳細', with: '家賃'
         click_on '更新する'
+        expect(page).to have_content '住宅費'
+        expect(page).to have_content '年額'
+        expect(page).to have_content '50,000'
+        expect(page).to have_content '家賃'
+
         expect(page).to have_content '変更しました'
       end
     end

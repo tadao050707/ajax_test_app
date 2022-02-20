@@ -27,8 +27,9 @@ RSpec.describe "Categories", type: :system do
       it '編集できる' do
         # click_on '編集'
         all('tbody td')[1].click_on '編集'
-        fill_in 'カテゴリ名', with: '編集したカテゴリー'
+        fill_in 'カテゴリ名', with: '編集したカテゴリ'
         click_on '変更'
+        expect(page).to have_content '編集したカテゴリ'
         expect(page).to have_content '変更しました'
       end
     end

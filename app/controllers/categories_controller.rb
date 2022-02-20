@@ -9,7 +9,6 @@ class CategoriesController < ApplicationController
 
   def create
     @category = current_user.categories.build(category_params)
-    # @category = current_user.build_category(category_params)
     if @category.valid?
       @category.save
       redirect_to new_category_path, notice: "「#{@category.cat_name}」を作成しました"

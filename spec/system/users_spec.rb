@@ -34,6 +34,7 @@ RSpec.describe "Users", type: :system do
         click_button "ログイン"
         # click_on "管理者画面"
         find("#id_admin").click
+        sleep 0.5
         expect(page).to have_selector '.page-header', text: 'サイト管理'
       end
     end
@@ -58,7 +59,8 @@ RSpec.describe "Users", type: :system do
         fill_in 'ユーザーネーム', with: '名前変更'
         fill_in 'プロフィール', with: 'よろしくお願いします'
         click_on '更新'
-        # binding.pry
+        expect(page).to have_content '名前変更'
+        expect(page).to have_content 'よろしくお願いします'
         expect(page).to have_content 'アカウント情報を変更しました'
       end
     end
