@@ -15,8 +15,8 @@
       <div class="text-center">
 
         <% if current_user.id == @user.id %>
-          <%= link_to "家計簿作成", new_fixed_cost_path, class: "btn btn-success btn-sm" %>
-          <%= link_to "家計簿カテゴリー作成", new_category_path,class: "btn btn-secondary btn-sm" %>
+          <%= link_to "固定費作成", new_fixed_cost_path, class: "btn btn-success btn-sm" %>
+          <%= link_to "固定費カテゴリ作成", new_category_path,class: "btn btn-secondary btn-sm" %>
         <% end %>
         <% if @monthly_view == "true" %>
           <%= link_to "年額表示", user_path(params[:id], monthly_view: "false"), class: "btn btn-primary btn-sm" %>
