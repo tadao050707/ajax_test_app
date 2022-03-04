@@ -7,7 +7,8 @@
     </div>
 
     <div class="col-sm-4">
-
+      <h2 class="text-center">マイページ</h2>
+      <br>
       <% if @user.image.present? %>
           <%= image_tag @user.image.url, class: "rounded-circle" if @user.image && @user.image.url %>
       <% end %>
