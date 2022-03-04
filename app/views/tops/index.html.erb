@@ -22,7 +22,7 @@
     <p>アカウント作成なしに</p>
     <%= link_to "みんなの固定支出はこちらからみれます", fixed_costs_path, class: 'btn btn-primary' %>
     <br><br>
-    <%= link_to I18n.t('views.messages.login'), new_user_session_path, class: "btn btn-outline-primary" %>
+    <%= link_to I18n.t('views.messages.login'), new_user_session_path, class: "btn btn-outline-primary" unless user_signed_in?%>
 
   </div>
 </div>

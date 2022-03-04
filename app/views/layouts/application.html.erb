@@ -25,10 +25,10 @@
           <ul class="navbar-nav ml-auto font-weight-bold ">
             <% if user_signed_in? %>
               <li class="nav-item ml-3">
-                <%= link_to "みんなの投稿", fixed_costs_path, class: "text-secondary" %>
+                <%= link_to "みんなの固定費", fixed_costs_path, class: "text-secondary" %>
               </li>
               <li class="nav-item ml-3">
-                <%= link_to "家計簿", user_path(current_user.id), class: "text-secondary" %>
+                <%= link_to "わたしの固定費", user_path(current_user.id), class: "text-secondary" %>
               </li>
               <li class="nav-item ml-3">
                 <%= link_to "マイページ", mypage_user_path(current_user.id), class: "text-secondary" %>

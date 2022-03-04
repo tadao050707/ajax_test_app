@@ -10,18 +10,19 @@ class CommentsController < ApplicationController
         flash.now[:notice1] = 'コメント投稿しました'
         format.js { render :index }
       else
-        format.html { redirect_to user_path(@comment), notice1: "投稿できませんでした"}
+        flash.now[:notice1] = '文字を入力してください'
+        format.js { render :index }
       end
     end
   end
 
-  def edit
-    @comment = @user.comments.find(params[:id])
-    respond_to do |format|
-      # flash.now[:notice] = 'コメント内容を変更しました'
-      format.js { render :edit }
-    end
-  end
+  # def edit
+  #   @comment = @user.comments.find(params[:id])
+  #   respond_to do |format|
+  #     # flash.now[:notice] = 'コメント内容を変更しました'
+  #     format.js { render :edit }
+  #   end
+  # end
 
   def update
     @comment = @user.comments.find(params[:id])

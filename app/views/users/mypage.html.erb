@@ -1,12 +1,14 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-4">
-      <%= link_to "アカウント設定",edit_user_registration_path if current_user.id == @user.id %>
+      <%= link_to "アカウント設定", edit_user_registration_path if current_user.id == @user.id %>
+      <p><%= link_to "固定費の作成", new_fixed_cost_path %></p>
 
     </div>
 
     <div class="col-sm-4">
-
+      <h2 class="text-center">マイページ</h2>
+      <br>
       <% if @user.image.present? %>
           <%= image_tag @user.image.url, class: "rounded-circle" if @user.image && @user.image.url %>
       <% end %>
