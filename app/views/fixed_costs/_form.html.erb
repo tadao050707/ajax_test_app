@@ -12,7 +12,7 @@
 
   <div class="form-group">
     <%= form.label :category %>
-    <%= form.collection_select(:category_ids, @categories, :id, :cat_name, :include_blank => "カテゴリを作成してください") %>
+    <%= form.collection_select(:category_ids, @categories, :id, :cat_name, :include_blank => "カテゴリを選択してください") %>
     <%= link_to "カテゴリ作成", new_category_path,class: "btn btn-outline-secondary btn-sm" if action_name != "edit" %>
   </div>
   <div class="form-group">

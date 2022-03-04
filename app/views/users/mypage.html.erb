@@ -1,7 +1,8 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-4">
-      <%= link_to "アカウント設定",edit_user_registration_path if current_user.id == @user.id %>
+      <%= link_to "アカウント設定", edit_user_registration_path if current_user.id == @user.id %>
+      <p><%= link_to "家計簿を作成する", new_fixed_cost_path %></p>
 
     </div>
 

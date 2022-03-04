@@ -22,7 +22,7 @@ RSpec.describe "FixedCosts", type: :system do
 
     context '固定費を登録した場合' do
       it '登録される' do
-        click_on '品目追加'
+        click_on '家計簿作成'
         select '保険', from: 'fixed_cost_category_ids'
         select '月額', from: 'fixed_cost_monthly_annual'
         fill_in 'fixed_cost_payment', with: '2000'
