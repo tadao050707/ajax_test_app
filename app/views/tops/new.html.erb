@@ -1,0 +1,47 @@
+<div class="container-fluid manual">
+  <h1 class="text-center">利用方法</h1>
+  <br>
+  <div class="row align-items-center">
+    <div class="col">
+      <div class="row justify-content-end">
+        <p><%= image_tag 'manual_1.png', size: '500x500', class: "img-thumbnail " %></p>
+      </div>
+    </div>
+    <div class="col">
+      <ol>
+        <li type="1"><p>画面上部の<%= link_to "「わたしの固定費」", user_path(current_user.id), class: "font-weight-bold" %>をクリック</p></li>
+        <li type="1"><p><%= link_to "「固定費作成」", new_fixed_cost_path, class: "font-weight-bold" %>をクリック</p></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="row align-items-center">
+    <div class="col">
+      <div class="row justify-content-end">
+        <p><%= image_tag 'manual_2.png', size: '500x500', class: "img-thumbnail" %></p>
+      </div>
+    </div>
+    <div class="col">
+      <p><strong>「固定支出の新規作成」</strong>画面で</p>
+      <ul>
+        <li type="disc"><p>カテゴリ</p></li>
+        <li type="disc"><p>金額</p></li>
+        <li type="disc"><p>内容の詳細</p></li>
+      </ul>
+      <p>を入力し<strong>「登録する」</strong>をクリック</p>
+      <p><strong class="text-danger">以上２ステップで登録完了！</strong></p>
+    </div>
+  </div>
+
+  <div class="row align-items-center">
+    <div class="col">
+      <div class="row justify-content-end">
+        <p><%= image_tag 'manual_3.png', size: '500x400', class: "img-thumbnail" %></p>
+      </div>
+    </div>
+    <div class="col">
+      <p><strong>「カテゴリ」</strong>は<%= link_to "「カテゴリ作成」", new_category_path, class: "font-weight-bold" %>をクリックして</p>
+      <p>新規・追加登録が可能</p>
+    </div>
+  </div>
+</div>
