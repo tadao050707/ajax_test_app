@@ -4,66 +4,69 @@
     </div>
 
     <div class="col-sm-4">
+      <h2 class="text-center">アカウント編集<%#= t('.title', resource: resource.model_name.human) %></h2>
 
-        <h2>アカウント編集<%#= t('.title', resource: resource.model_name.human) %></h2>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
 
-        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-          <%= render "devise/shared/error_messages", resource: resource %>
+        <div class="field">
+          <%#= f.label :image %>
+          <%= image_tag(@user.image.url, class: "image mb-2 rounded-circle") if @user.image && @user.image.url %>
+          <%= f.file_field :image %>
+        </div>
+        <div class="field my-2 mb-3">
+          <small class="text-muted"><%= f.label :name %></small><br />
+          <%= f.text_field :name, autofocus: true, autocomplete: "name", class: 'form-control' %>
+        </div>
+        <div class="field">
+          <small class="text-muted"><%= f.label :profile %></small><br />
+          <%= f.text_area :profile, autofocus: true, autocomplete: "profile",  class: 'form-control' %>
+        </div><br>
+        <small class="text-muted">家族構成</small>
+        <div class="field_num">
+          <%= f.label :adult_number %>
+          <%= f.select :adult_number, 1..10 %>人　
+          <%= f.label :child_number %>
+          <%= f.select :child_number, 0..10 %>人
+        </div>
+        <div class="field my-2">
+          <small class="text-muted"><%= f.label :email %></small><br />
+          <%= f.email_field :email, autocomplete: "email", class: 'form-control' %>
+        </div>
 
-          <div class="field">
-            <%#= f.label :image %>
-            <%= image_tag(@user.image.url, class: "image mb-2 rounded-circle") if @user.image && @user.image.url %>
-            <%= f.file_field :image %>
-          </div>
-
-          <div class="field my-2">
-            <%= f.label :name %><br />
-            <%= f.text_field :name, autofocus: true, autocomplete: "name", class: 'form-control' %>
-          </div>
-
-          <div class="field">
-            <%= f.label :profile %><br />
-            <%= f.text_area :profile, autofocus: true, autocomplete: "profile",  class: 'form-control' %>
-          </div>
-          <div class="field my-2">
-            <%= f.label :email %><br />
-            <%= f.email_field :email, autocomplete: "email", class: 'form-control' %>
-          </div>
-
-          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-            <div><%= t('.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email) %></div>
-          <% end %>
-
-          <br><br>
-          <div class="field">
-            <%= f.label :password %> <i>(<em><%#= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em>
-        <%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i><br />
-            <%= f.password_field :password, autocomplete: "new-password", placeholder: "新しいパスワード６字以上", class: 'form-control' %>
-            <% if @minimum_password_length %>
-            <% end %>
-          </div>
-
-          <div class="field my-2">
-            <%= f.label :password_confirmation %>
-            <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "新しいパスワード確認用", class: 'form-control' %>
-          </div>
-          <div class="field">
-            <%= f.label :current_password %>
-              <%= f.password_field :current_password, autocomplete: "current-password", class: 'form-control', placeholder: "パスワード変更時、入力してください" %>
-          </div>
-
-          <div class="actions mt-2">
-            <%= f.submit t('.update'), class: "btn btn-success btn-sm" %>
-          </div>
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <div><%= t('.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email) %></div>
         <% end %>
 
+        <br><br>
+        <div class="field">
+          <small class="text-muted"><%= f.label :password %> <i>(<em><%#= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em>
+          <%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i></small><br />
+          <%= f.password_field :password, autocomplete: "new-password", placeholder: "新しいパスワード６字以上", class: 'form-control' %>
+          <% if @minimum_password_length %>
+          <% end %>
+        </div>
 
-        <p><%= button_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete %></p>
+        <div class="field my-2">
+          <small class="text-muted"><%= f.label :password_confirmation %></small>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "新しいパスワード確認用", class: 'form-control' %>
+        </div>
+        <div class="field">
+          <small class="text-muted"><%= f.label :current_password %></small>
+            <%= f.password_field :current_password, autocomplete: "current-password", class: 'form-control', placeholder: "パスワード変更時、入力してください" %>
+        </div>
 
-        <%= link_to t('devise.shared.links.back'), :back, class: "btn btn-outline-primary btn-sm" %>
-      </div>
+        <div class="actions mt-2">
+          <%= f.submit t('.update'), class: "btn btn-success btn-sm" %>
+        </div>
+      <% end %><br>
 
-      <div class="col-sm-4">
-      </div>
+      <p><%= button_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete %></p>
+
+      <%= link_to t('devise.shared.links.back'), :back, class: "btn btn-outline-primary btn-sm" %>
+    </div>
+
+    <div class="col-sm-4">
     </div>
   </div>
+</div>

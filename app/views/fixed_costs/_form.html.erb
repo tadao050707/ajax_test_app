@@ -33,7 +33,11 @@
   <% else %>
     <%= form.submit "登録する", class: 'btn btn-success' %>
   <% end %>
-  <%= link_to '削除', fixed_cost_path(@fixed_cost.id), method: :delete, class: 'btn btn-outline-danger', data: { confirm: "削除していいですか？"} if action_name == "edit" %>
+  <% if action_name == "edit" %>
+    <%= link_to fixed_cost_path(@fixed_cost.id), method: :delete, class: 'btn btn-danger', data: { confirm: "削除していいですか？"} do %>
+      <i class="far fa-trash-alt"></i>
+    <% end %>
+  <% end %>
 <% end %>
 
 <br>

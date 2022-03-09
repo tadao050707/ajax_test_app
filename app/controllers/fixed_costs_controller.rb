@@ -5,6 +5,8 @@ class FixedCostsController < ApplicationController
 
   def index
     @users = User.includes(:fixed_costs)
+    @rankings = User.includes(:fixed_costs)
+    @rankings = @users.where(adult_number: params[:adult_number]).where(child_number: params[:child_number]) if params[:commit] == "検索"
   end
 
   def new
@@ -16,7 +18,6 @@ class FixedCostsController < ApplicationController
     @fixed_cost = current_user.fixed_costs.build(fixed_cost_params)
     if @fixed_cost.valid?
       @fixed_cost.save
-      # binding.pry
       redirect_to user_path(current_user), notice: "「#{@fixed_cost.categories.map(&:cat_name).first}」を登録しました"
     else
       @categories = current_user.categories.includes(:user)
@@ -47,7 +48,7 @@ class FixedCostsController < ApplicationController
 
   private
   def fixed_cost_params
-    params.require(:fixed_cost).permit(:payment, :content, :monthly_annual, :category_ids, :user_id)
+    params.require(:fixed_cost).permit(:payment, :content, :monthly_annual, :category_ids, :user_id, :adult_number, :child_number)
   end
 
   def set_fixed_cost

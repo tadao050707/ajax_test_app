@@ -5,6 +5,7 @@ class FixedCost < ApplicationRecord
   belongs_to :user
   has_many :categorizations, dependent: :destroy
   has_many :categories, through: :categorizations
+  has_many :bookmarks, dependent: :destroy
 
   enum monthly_annual: { monthly: 0, annual: 1 }
 

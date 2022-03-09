@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only: %i[ show mypage edit update ]
+  before_action :set_fixed_cost, only: %i[ show ]
 
   def mypage
     redirect_to user_path(current_user) unless current_user.id == @user.id
@@ -10,6 +11,9 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
     # @fixed_costs = user.fixed_costs.includes(user: [:categories])
     @fixed_costs = user.fixed_costs
+
+    @bookmark = current_user.bookmarks.find_by(fixed_cost_id: @fixed_cost.id)
+    # @bookmark = current_user.bookmarks.find_by(fixed_cost_id: @user.id)
 
     @comments = @user.comments
     @comment = @user.comments.build
@@ -56,5 +60,10 @@ class UsersController < ApplicationController
 
     def set_user
       @user = User.find(params[:id])
+    end
+
+    #追加
+    def set_fixed_cost
+      @fixed_cost = FixedCost.find(params[:id])
     end
 end

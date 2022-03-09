@@ -9,7 +9,7 @@
       <table class="table table-hover table-sm">
         <thead class="thead-light">
           <tr>
-            <th>登録したカテゴリ</th>
+            <th>作成したカテゴリ</th>
             <th></th>
             <th></th>
           </tr>
@@ -18,8 +18,12 @@
           <tbody class="category">
             <tr>
               <td><%= category.cat_name %></td>
-              <td><%= link_to "編集", edit_category_path(category.id), class: 'btn btn-primary btn-sm' %></td>
-              <td><%= link_to "削除", category_path(category.id), method: :delete, class: 'btn btn-danger btn-sm', data: { confirm: "削除して良いですか？" } %></td>
+              <td><%= link_to edit_category_path(category.id), class: 'btn btn-primary btn-sm' do %>
+                <i class="fas fa-edit"></i>
+              <% end %></td>
+              <td><%= link_to category_path(category.id), method: :delete, class: 'btn btn-danger btn-sm', data: { confirm: "削除して良いですか？" } do %>
+                <i class="far fa-trash-alt"></i>
+              <% end %></td>
             </tr>
           </tbody>
         <% end %>

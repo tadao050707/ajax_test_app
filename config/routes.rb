@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :tops, only: [:new]
   resources :fixed_costs, except: [:show]
   resources :categories
+  resources :bookmarks, only: [:create, :destroy]
 
   devise_for :users, controllers: {
     registrations: 'users/registrations',

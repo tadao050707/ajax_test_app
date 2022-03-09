@@ -13,6 +13,8 @@ class User < ApplicationRecord
   has_many :fixed_costs, dependent: :destroy
   has_many :categories, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :bookmarks, dependent: :destroy
+  has_many :bookmark_fixed_costs, through: :bookmarks, source: :fixed_cost
 
   mount_uploader :image, ImageUploader
 

@@ -2,26 +2,42 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-3">
+      <h2 class="text-center">ランキング</h2>
+      <%= form_with(url: fixed_costs_path, method: :get, local: true) do |form| %>
+        <%#= form.text_field :search , placeholder: "Search"%>
+        大人：<%= form.select :adult_number, 1..10, include_blank: "" %>人　
+        子供：<%= form.select :child_number, 0..10, include_blank: "" %>人
+        <%= form.submit '検索' %>
+      <% end %>
+
+      <% @rankings.each.with_index(1) do |ranking, i| %>
+        <tr>
+          <ul>
+          <td><li>第<%= i %>位、<%= ranking.name %></li></td>
+          </ul>
+        </tr>
+      <% end %>
+
+
     </div>
 
     <div class="col-sm-6" >
     <!-- <div class="d-flex justify-content-center"> -->
-    <h2 class="text-center">みんなの固定費一覧</h2>
-    <!-- カードで設計 -->
-    <% @users.each do |user| %>
-      <!-- <div class="card shadow-sm card-center" style="max-width: 25rem; margin-bottom: 10px "> -->
-      <div class="card shadow-sm mb-2" style="max-width: 25rem; margin: 0 auto; ">
-        <% total_monthly = [] %>
-        <% user.fixed_costs.each do |fixed_cost| %>
-          <% if fixed_cost.monthly_annual == "annual" %>
-            <% total_monthly << monthly_payment(fixed_cost) %>
-          <% elsif fixed_cost.monthly_annual == "monthly" %>
-            <% total_monthly << fixed_cost.payment %>
+      <h2 class="text-center">みんなの固定費一覧</h2>
+      <!-- カードで設計 -->
+      <% @users.each do |user| %>
+        <div class="card shadow-sm mb-2" style="max-width: 25rem; margin: 0 auto; ">
+          <% total_monthly = [] %>
+          <% user.fixed_costs.each do |fixed_cost| %>
+            <% if fixed_cost.monthly_annual == "annual" %>
+              <% total_monthly << monthly_payment(fixed_cost) %>
+            <% elsif fixed_cost.monthly_annual == "monthly" %>
+              <% total_monthly << fixed_cost.payment %>
+            <% end %>
           <% end %>
-        <% end %>
 
-        <div class="card-body pb-1">
-          <h6 class="card-title">
+          <div class="card-body pb-1">
+            <h6 class="card-title">
               <div class="">
                 <div class="">
                   <% if user.image.present? %>
@@ -33,16 +49,16 @@
                   月額支出：<strong><%= total_monthly.sum.to_s(:delimited) %>円</strong>
                 </div>
               </div>
-          </h6>
+            </h6>
+          </div>
+          <div class="card-footer bg-transparent">
+            <small><%= l user.updated_at, format: :mid %></small>
+          </div>
         </div>
-        <div class="card-footer bg-transparent">
-          <small><%= l user.updated_at, format: :mid %></small>
-        </div>
-      </div>
-    <% end %>
-  </div>
+      <% end %>
+    </div>
 
-  <div class="col-sm-3">
+    <div class="col-sm-3">
+    </div>
   </div>
-</div>
 </div>
