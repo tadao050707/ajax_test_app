@@ -1,27 +1,49 @@
 <!-- <div class="container-fluid mx-auto" style="width: 100rem"> -->
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-3">
-      <h2 class="text-center">ランキング</h2>
-      <%= form_with(url: fixed_costs_path, method: :get, local: true) do |form| %>
-        <%#= form.text_field :search , placeholder: "Search"%>
-        大人：<%= form.select :adult_number, 1..10, include_blank: "" %>人　
-        子供：<%= form.select :child_number, 0..10, include_blank: "" %>人
-        <%= form.submit '検索' %>
-      <% end %>
+    <div class="col-sm-4" id="sticky-sidebar">
+      <div class="sticky-top">
+        <div class="nav flex-column pt-4 pl-1">
+          <h2 class="text-center">固定支出ランキング</h2>
+          <%= form_with(url: fixed_costs_path, method: :get, local: true) do |form| %>
+            大人：<%= form.select :adult_number, 1..10, include_blank: "" %>人　
+            子供：<%= form.select :child_number, 0..10, include_blank: "" %>人
+            <%= form.submit '検索' %>
+          <% end %>
 
-      <% @rankings.each.with_index(1) do |ranking, i| %>
-        <tr>
-          <ul>
-          <td><li>第<%= i %>位、<%= ranking.name %></li></td>
-          </ul>
-        </tr>
-      <% end %>
+          <table class="table table-sm mt-1">
+            <thead class="thead-light">
+              <tr>
+                <th>順位</th>
+                <th></th>
+                <th>月額合計</th>
+              </tr>
+            </thead>
 
+            <% @rankings.each.with_index(1) do |ranking, i| %>
 
+              <% @total_monthly = [] %>
+              <% ranking.fixed_costs.each do |fixed_cost| %>
+                <% if fixed_cost.monthly_annual == "annual" %>
+                  <% @total_monthly << monthly_payment(fixed_cost) %>
+                <% elsif fixed_cost.monthly_annual == "monthly" %>
+                  <% @total_monthly << fixed_cost.payment %>
+                <% end %>
+              <% end %>
+              <tr>
+                <td>第<%= i %>位</td>
+                <td class="pl-3"><%= link_to "#{ranking.name}", user_path(ranking.id) %></td>
+                <td><%= @total_monthly.sum.to_s(:delimited) %>円</td>
+              </tr>
+              <% break if i == 5 %>
+            <% end %>
+
+          </table>
+        </div>
+      </div>
     </div>
 
-    <div class="col-sm-6" >
+    <div class="col-sm-5" >
     <!-- <div class="d-flex justify-content-center"> -->
       <h2 class="text-center">みんなの固定費一覧</h2>
       <!-- カードで設計 -->
@@ -53,6 +75,7 @@
           </div>
           <div class="card-footer bg-transparent">
             <small><%= l user.updated_at, format: :mid %></small>
+            <%= render 'relationships/follow_form', user: user %>
           </div>
         </div>
       <% end %>

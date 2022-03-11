@@ -11,15 +11,7 @@
         <h4>プロフィール</h4>
         <%= @user.profile %>
       <% end %>
-<% if false %>
-      <% unless @fixed_cost.user_id == current_user.id %>
-        <% if @bookmark.present? %>
-          <%= link_to 'お気に入り解除する', bookmark_path(id: @bookmark.id), method: :delete, class: 'btn btn-danger' %>
-        <% else %>
-          <%= link_to 'お気に入りに登録', bookmarks_path(fixed_cost_id: @fixed_cost.id), method: :post, class: 'btn btn-primary' %>
-        <% end %>
-      <% end %>
-<% end %>
+
       <div class="text-center">
         <% if current_user.id == @user.id %>
           <%= link_to "固定費作成", new_fixed_cost_path, class: "btn btn-success btn-sm" %>
@@ -30,6 +22,7 @@
         <% else %>
           <%= link_to "月額表示", user_path(params[:id], monthly_view: "true"), class: "btn btn-primary btn-sm" %>
         <% end %>
+        <%= render 'relationships/follow_form', user: @user %>
       </div>
 
       <% total_annual = [] %>

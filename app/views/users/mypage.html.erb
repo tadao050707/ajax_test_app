@@ -28,6 +28,11 @@
         子供：<%= @user.child_number %>人
       </div><br>
 
+      <small class="text-muted">フォロー中のユーザー</small>
+      <% current_user.following.each do |follow_user| %>
+        <%= link_to "#{follow_user.name}", user_path(follow_user.id) %>
+      <% end %>
+
     </div>
 
     <div class="col-sm-4">

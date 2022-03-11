@@ -6,7 +6,14 @@ class FixedCostsController < ApplicationController
   def index
     @users = User.includes(:fixed_costs).desc_sort
     @rankings = User.includes(:fixed_costs)
-    @rankings = @users.where(adult_number: params[:adult_number]).where(child_number: params[:child_number]) if params[:commit] == "検索"
+
+    # @ranks = FixedCost.includes(:user)
+    # monthly_cost = @ranks.where(monthly_annual: 0).sum(:payment)
+    # annual_cost = @ranks.where(monthly_annual: 1).sum(:payment)
+    # @cost = monthly_cost + annual_cost
+    # binding.pry
+
+    @rankings = @rankings.where(adult_number: params[:adult_number]).where(child_number: params[:child_number]) if params[:commit] == "検索"
   end
 
   def new
