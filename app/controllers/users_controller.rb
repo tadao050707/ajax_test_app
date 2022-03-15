@@ -12,9 +12,6 @@ class UsersController < ApplicationController
     # @fixed_costs = user.fixed_costs.includes(user: [:categories])
     @fixed_costs = user.fixed_costs
 
-    # @bookmark = current_user.bookmarks.find_by(fixed_cost_id: @fixed_cost.id)
-    # @bookmark = current_user.bookmarks.find_by(fixed_cost_id: @user.id)
-
     @comments = @user.comments
     @comment = @user.comments.build
 
@@ -25,8 +22,11 @@ class UsersController < ApplicationController
       @monthly_view = params[:monthly_view]
     end
     #viewから受け取ったパラメーターを年額表示にする
-    # binding.pry
     # @fixed_costs = FixedCost.paymemt * 12 if parmas[:monthly_view] == false
+    @join_monthlies_cost = @fixed_costs.joins(:categories).where(monthly_annual: 1).or(@fixed_costs.joins(:categories).where(monthly_annual: 0)).group("categories.cat_name").sum(:payment)
+
+    @join_annuals_cost = @fixed_costs.joins(:categories).where(monthly_annual: 1).or(@fixed_costs.joins(:categories).where(monthly_annual: 0)).group("categories.cat_name").sum(:payment)
+    @join_annuals_cost.each { |key, value| @join_annuals_cost[key] = value * 12 }
 
   #---------------------------
     # （１）まず月額の支出だけまとめる groupは同じカテゴリをまとめる sumはまとめたカテゴリ(payment)を合計する。

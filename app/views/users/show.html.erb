@@ -15,7 +15,6 @@
       <div class="text-center">
         <% if current_user.id == @user.id %>
           <%= link_to "固定費作成", new_fixed_cost_path, class: "btn btn-success btn-sm" %>
-          <%#= link_to "固定費カテゴリ作成", new_category_path,class: "btn btn-secondary btn-sm" %>
         <% end %>
         <% if @monthly_view == "true" %>
           <%= link_to "年額表示", user_path(params[:id], monthly_view: "false"), class: "btn btn-primary btn-sm" %>
@@ -39,6 +38,17 @@
         <% end %>
       </div>
 <% end %>
+
+      <div class="mx-auto" style="width: 350px;">
+        <% if @monthly_view == "true" %>
+          <%= pie_chart @join_monthlies_cost, label: "合計", library: {title: {text: "月額支出<br>#{@fixed_costs.map(&:payment).sum.to_s(:delimited)}円 "}} %>
+        <% else %>
+          <%= pie_chart @join_annuals_cost, label: "合計", library: {title: {text: "年額支出<br>#{@fixed_costs.map(&:payment).sum{|i| i * 12 }.to_s(:delimited)}円 "}} %>
+        <% end %>
+      </div>
+
+
+
       <table class="table table-sm">
         <thead class="thead-light">
           <tr>
