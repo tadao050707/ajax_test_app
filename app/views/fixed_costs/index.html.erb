@@ -20,23 +20,26 @@
               </tr>
             </thead>
 
-            <% @rankings.each.with_index(1) do |ranking, i| %>
+            <%# @rankings.each.with_index(1) do |ranking, i| %>
 
-              <% @total_monthly = [] %>
-              <% ranking.fixed_costs.each do |fixed_cost| %>
-                <% if fixed_cost.monthly_annual == "annual" %>
-                  <% @total_monthly << monthly_payment(fixed_cost) %>
-                <% elsif fixed_cost.monthly_annual == "monthly" %>
-                  <% @total_monthly << fixed_cost.payment %>
-                <% end %>
+              <%# @total_monthly = [] %>
+              <%# ranking.fixed_costs.each do |fixed_cost| %>
+                <%# if fixed_cost.monthly_annual == "annual" %>
+                  <%# @total_monthly << monthly_payment(fixed_cost) %>
+                <%# elsif fixed_cost.monthly_annual == "monthly" %>
+                  <%# @total_monthly << fixed_cost.payment %>
+                <%# end %>
+              <%# end %>
+              <% num = 0 %>
+              <% @user_total_cost.each do |uid, value| %>
+                <tr>
+                  <td>第<%= num += 1 %>位</td>
+                  <td class="pl-3"><%= link_to "#{User.find(uid).name}", user_path(uid) %></td>
+                  <td><%= value %>円</td>
+                  <!-- <td><%#= @total_monthly.sum.to_s(:delimited) %>円</td> -->
+                </tr>
+              <%# break if i == 5 %>
               <% end %>
-              <tr>
-                <td>第<%= i %>位</td>
-                <td class="pl-3"><%= link_to "#{ranking.name}", user_path(ranking.id) %></td>
-                <td><%= @total_monthly.sum.to_s(:delimited) %>円</td>
-              </tr>
-              <% break if i == 5 %>
-            <% end %>
 
           </table>
         </div>

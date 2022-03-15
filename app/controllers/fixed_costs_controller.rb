@@ -7,13 +7,18 @@ class FixedCostsController < ApplicationController
     @users = User.includes(:fixed_costs).desc_sort
     @rankings = User.includes(:fixed_costs)
 
-    # @ranks = FixedCost.includes(:user)
-    # monthly_cost = @ranks.where(monthly_annual: 0).sum(:payment)
-    # annual_cost = @ranks.where(monthly_annual: 1).sum(:payment)
-    # @cost = monthly_cost + annual_cost
-    # binding.pry
-
     @rankings = @rankings.where(adult_number: params[:adult_number]).where(child_number: params[:child_number]) if params[:commit] == "検索"
+
+    @user_total_cost = {}
+    @rankings.each {|ranking|
+      total_cost = 0
+      ranking.fixed_costs.each {|fixed_cost|
+        total_cost += monthly_payment(fixed_cost) if fixed_cost.monthly_annual == "annual"
+        total_cost += fixed_cost.payment if fixed_cost.monthly_annual == "monthly"
+      }
+      @user_total_cost.store(ranking.id, total_cost)
+    }
+    @user_total_cost = @user_total_cost.sort_by{ |_, v| v}.to_h
   end
 
   def new
@@ -23,6 +28,7 @@ class FixedCostsController < ApplicationController
 
   def create
     @fixed_cost = current_user.fixed_costs.build(fixed_cost_params)
+    @fixed_cost.change_monthly_payment(params[:fixed_cost][:monthly_annual],params[:fixed_cost][:payment])
     if @fixed_cost.valid?
       @fixed_cost.save
       redirect_to user_path(current_user), notice: "「#{@fixed_cost.categories.map(&:cat_name).first}」を登録しました"

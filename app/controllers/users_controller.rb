@@ -24,7 +24,11 @@ class UsersController < ApplicationController
     else
       @monthly_view = params[:monthly_view]
     end
+    #viewから受け取ったパラメーターを年額表示にする
+    # binding.pry
+    # @fixed_costs = FixedCost.paymemt * 12 if parmas[:monthly_view] == false
 
+  #---------------------------
     # （１）まず月額の支出だけまとめる groupは同じカテゴリをまとめる sumはまとめたカテゴリ(payment)を合計する。
     all_monthlies = @fixed_costs.joins(:categories).where(monthly_annual: 0).group("categories.cat_name").sum(:payment)
     all_annuals = @fixed_costs.joins(:categories).where(monthly_annual: 1).group("categories.cat_name").sum(:payment)
@@ -42,6 +46,7 @@ class UsersController < ApplicationController
       # @costs = all_monthlies.merge(changed_annuals){|key, v1, v2| v1 + v2}.sort_by { |_, v| v }.reverse
       @costs = all_annuals.merge(changed_annuals){|key, v1, v2| v1 + v2}.sort_by { |_, v| v }.reverse
     end
+  #-----------------------------------
   end
 
   def edit

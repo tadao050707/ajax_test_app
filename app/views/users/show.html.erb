@@ -24,12 +24,13 @@
         <% end %>
         <%= render 'relationships/follow_form', user: @user %>
       </div>
-
+<% if false %>
       <% total_annual = [] %>
       <% total_monthly = [] %>
       <% @fixed_costs.each do |fixed_cost| %>
         <% switch_annual_monthly(total_annual, total_monthly, @monthly_view, fixed_cost) %>
       <% end %>
+
       <div class="mx-auto" style="width: 350px;">
         <% if @monthly_view == "true" %>
           <%= pie_chart @costs, label: "合計", library: {title: {text: "月額支出<br>#{total_monthly.sum.to_s(:delimited)}円 "}} %>
@@ -37,7 +38,7 @@
           <%= pie_chart @costs, label: "合計", library: {title: {text: "年額支出<br>#{total_annual.sum.to_s(:delimited)}円 "}} %>
         <% end %>
       </div>
-
+<% end %>
       <table class="table table-sm">
         <thead class="thead-light">
           <tr>
@@ -49,8 +50,8 @@
             <th></th>
           </tr>
         </thead>
-
-        <% @fixed_costs.includes(:categories).each do |fixed_cost| %><!-- userのfixed_costテーブル中身 -->
+        <!-- current_userのfixed_costテーブル中身 -->
+        <% @fixed_costs.includes(:categories).each do |fixed_cost| %>
         <tbody class="fixed_cost">
           <tr>
           <% unless fixed_cost.categories.present? %>
@@ -58,6 +59,7 @@
           <% else %>
             <td><%= fixed_cost.categories.map(&:cat_name).first %></td>
           <% end %>
+<% if false %>
           <% if @monthly_view == "true" && fixed_cost.monthly_annual == "annual" %>
             <td><%= I18n.t('views.words.monthly') %></td>
             <td><%= monthly_payment(fixed_cost).to_s(:delimited) %>円 </td>
@@ -68,6 +70,16 @@
             <td><%= fixed_cost.monthly_annual_i18n %></td>
             <td><%= fixed_cost.payment.to_s(:delimited) %>円 </td>
           <% end %>
+<% end %>
+<!-- 新しいロジック -->
+          <% if @monthly_view == "true" %>
+            <td><%= I18n.t('views.words.monthly') %></td>
+            <td><%= fixed_cost.payment.to_s(:delimited) %>円</td>
+          <% else @monthly_view == "false" %>
+            <td><%= I18n.t('views.words.annual') %></td>
+            <td><%= annual_payment(fixed_cost).to_s(:delimited) %>円</td>
+          <% end %>
+
           <td><%= fixed_cost.content %></td>
           <% if fixed_cost.user == current_user %>
             <td><%= link_to edit_fixed_cost_path(fixed_cost.id), class: 'btn btn-primary btn-sm' do %>
