@@ -1,27 +1,69 @@
 <!-- <div class="container-fluid mx-auto" style="width: 100rem"> -->
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-4" id="sticky-sidebar">
+      <div class="sticky-top">
+        <div class="nav flex-column pl-1">
+          <h2 class="text-center">固定支出ランキング</h2>
+          <%= form_with(url: fixed_costs_path, method: :get, local: true) do |form| %>
+            大人：<%= form.select :adult_number, 1..10, include_blank: "" %>人　
+            子供：<%= form.select :child_number, 0..10, include_blank: "" %>人
+            <%= form.submit '検索' %>
+          <% end %>
+
+          <table class="table table-sm mt-1">
+            <thead class="thead-light">
+              <tr>
+                <th>順位</th>
+                <th></th>
+                <th>月額合計</th>
+              </tr>
+            </thead>
+
+            <%# @rankings.each.with_index(1) do |ranking, i| %>
+
+              <%# @total_monthly = [] %>
+              <%# ranking.fixed_costs.each do |fixed_cost| %>
+                <%# if fixed_cost.monthly_annual == "annual" %>
+                  <%# @total_monthly << monthly_payment(fixed_cost) %>
+                <%# elsif fixed_cost.monthly_annual == "monthly" %>
+                  <%# @total_monthly << fixed_cost.payment %>
+                <%# end %>
+              <%# end %>
+              <% num = 0 %>
+              <% @user_total_cost.each do |uid, value| %>
+                <tr>
+                  <% if value > 30000 %>
+                    <td>第<%= num += 1 %>位</td>
+                    <td class="pl-3"><%= link_to "#{User.find(uid).name}", user_path(uid) %></td>
+                    <td><%= value.to_s(:delimited) %>円</td>
+                  <% end %>
+                </tr>
+              <%# break if i == 5 %>
+              <% end %>
+
+          </table>
+        </div>
+      </div>
     </div>
 
-    <div class="col-sm-6" >
+    <div class="col-sm-5 offset-sm-4" >
     <!-- <div class="d-flex justify-content-center"> -->
-    <h2 class="text-center">みんなの固定費一覧</h2>
-    <!-- カードで設計 -->
-    <% @users.each do |user| %>
-      <!-- <div class="card shadow-sm card-center" style="max-width: 25rem; margin-bottom: 10px "> -->
-      <div class="card shadow-sm mb-2" style="max-width: 25rem; margin: 0 auto; ">
-        <% total_monthly = [] %>
-        <% user.fixed_costs.each do |fixed_cost| %>
-          <% if fixed_cost.monthly_annual == "annual" %>
-            <% total_monthly << monthly_payment(fixed_cost) %>
-          <% elsif fixed_cost.monthly_annual == "monthly" %>
-            <% total_monthly << fixed_cost.payment %>
+      <h2 class="text-center">みんなの固定費一覧</h2>
+      <!-- カードで設計 -->
+      <% @users.each do |user| %>
+        <div class="card shadow-sm mb-2" style="max-width: 25rem; margin: 0 auto; ">
+          <% total_monthly = [] %>
+          <% user.fixed_costs.each do |fixed_cost| %>
+            <% if fixed_cost.monthly_annual == "annual" %>
+              <% total_monthly << monthly_payment(fixed_cost) %>
+            <% elsif fixed_cost.monthly_annual == "monthly" %>
+              <% total_monthly << fixed_cost.payment %>
+            <% end %>
           <% end %>
-        <% end %>
 
-        <div class="card-body pb-1">
-          <h6 class="card-title">
+          <div class="card-body pb-1">
+            <h6 class="card-title">
               <div class="">
                 <div class="">
                   <% if user.image.present? %>
@@ -33,16 +75,17 @@
                   月額支出：<strong><%= total_monthly.sum.to_s(:delimited) %>円</strong>
                 </div>
               </div>
-          </h6>
+            </h6>
+          </div>
+          <div class="card-footer bg-transparent d-flex justify-content-between">
+            <small class="pt-1"><%= l user.updated_at, format: :mid %></small>
+            <%= render 'relationships/follow_form', user: user if current_user != user %>
+          </div>
         </div>
-        <div class="card-footer bg-transparent">
-          <small><%= l user.updated_at, format: :mid %></small>
-        </div>
-      </div>
-    <% end %>
-  </div>
+      <% end %>
+    </div>
 
-  <div class="col-sm-3">
+    <div class="col-sm-3">
+    </div>
   </div>
-</div>
 </div>

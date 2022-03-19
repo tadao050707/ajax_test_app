@@ -1,22 +1,38 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-4">
-      <%= link_to "アカウント設定", edit_user_registration_path if current_user.id == @user.id %>
-      <p><%= link_to "固定費の作成", new_fixed_cost_path %></p>
+    <div class="col-sm-4 ml-2 ">
+      <div class="mb-1"><%= link_to "アカウント設定", edit_user_registration_path if current_user.id == @user.id %></div>
+      <div class=""><%= link_to "固定費の作成", new_fixed_cost_path %></div>
 
     </div>
 
     <div class="col-sm-4">
+
       <h2 class="text-center">マイページ</h2>
       <br>
-      <% if @user.image.present? %>
-          <%= image_tag @user.image.url, class: "rounded-circle" if @user.image && @user.image.url %>
-      <% end %>
-      <h4 class="mt-1">名前 <%= @user.name %></h4>
+      <div class="">
+        <% if @user.image.present? %>
+            <%= image_tag @user.image.url, class: "rounded-circle", width: "10%" if @user.image && @user.image.url %>
+        <% end %>
+        <small class="text-muted">名前：</small><lead> <%= @user.name %></lead>
+      </div><br>
 
-      <h4>プロフィール</h4>
-      <%= @user.profile %>
-      <br><br>
+      <small class="text-muted">プロフィール</small>
+      <div class="card shadow-sm p-2">
+        <%= @user.profile %>
+      </div><br>
+
+      <small class="text-muted">家族構成</small>
+      <div class="card shadow-sm p-2">
+        大人：<%= @user.adult_number %>人　
+        子供：<%= @user.child_number %>人
+      </div><br>
+
+      <small class="text-muted">フォロー中のユーザー</small>
+      <% current_user.following.each do |follow_user| %>
+        <%= link_to "#{follow_user.name}", user_path(follow_user.id) %>
+      <% end %>
+
     </div>
 
     <div class="col-sm-4">

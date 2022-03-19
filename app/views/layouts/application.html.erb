@@ -4,13 +4,11 @@
     <title>Frugality</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <meta name="viewport" content="width=devise-width, initial-scale=1.0" />
-
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %><!--追加 -->
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-
+    <script src="https://kit.fontawesome.com/5966e38669.js" crossorigin="anonymous"></script>
   </head>
 
   <body>
@@ -61,13 +59,13 @@
           <p class="alert alert-error"><%= alert %></p>
         <% end %>
       </div>
+      
+      <%= yield %>
 
-        <%= yield %>
     </main>
     <footer class="footer bg-light">
       <p class="text-dark text-center text-secondary">©2022 Frugality</p>
     </footer>
-
 
     <code class="code-multiline"><!-- jQuery読み込み -->
       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -78,6 +76,7 @@
       <!-- BootstrapのJavascript読み込み -->
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     </code>
+
 
 
   </body>
