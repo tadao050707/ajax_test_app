@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     # @fixed_costs = user.fixed_costs.includes(user: [:categories])
     @fixed_costs = user.fixed_costs
 
-    @comments = @user.comments
+    @comments = @user.comments.desc_sort
     @comment = @user.comments.build
 
     params[:monthly_view].nil? ? @monthly_view = "true" : @monthly_view = params[:monthly_view]

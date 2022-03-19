@@ -81,7 +81,7 @@
             <td><%= fixed_cost.payment.to_s(:delimited) %>円 </td>
           <% end %>
 <% end %>
-<!-- 新しいロジック -->
+<!-- リファクタリング -->
           <% if @monthly_view == "true" %>
             <td><%= I18n.t('views.words.monthly') %></td>
             <td><%= fixed_cost.payment.to_s(:delimited) %>円</td>
@@ -108,18 +108,17 @@
       </table>
 
       <hr>
-      <!-- <div class="text-danger"> -->
       <span class="text-danger">
         <p id="notice"><%= flash[:notice1] %></p>
       </span>
-      <!-- </div> -->
-
-      <p>コメント一覧</p>
+      <%= render partial: 'comments/form', locals: { comment: @comment, user: @user } %>
+      <br>
+      <!-- <p>コメント一覧</p> -->
       <div id="comments_area">
         <%= render partial: 'comments/index', locals: { comments: @comments, user: @user } %>
       </div>
-      <%= render partial: 'comments/form', locals: { comment: @comment, user: @user } %>
-      <%= link_to '戻る' %>
+      <%#= render partial: 'comments/form', locals: { comment: @comment, user: @user } %>
+      <%#= link_to '戻る' %>
     </div>
 
     <div class="col-md-3">

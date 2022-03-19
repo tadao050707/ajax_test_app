@@ -1,12 +1,11 @@
 class FixedCost < ApplicationRecord
   include ActiveModel::AttributeMethods
-  validates :payment, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 9999999}
+  validates :payment, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 9999999}
   validates :content, length: { maximum: 100, message: 'は100文字以内で登録してください' }
 
   belongs_to :user
   has_many :categorizations, dependent: :destroy
   has_many :categories, through: :categorizations
-  # has_many :bookmarks, dependent: :destroy
 
   enum monthly_annual: { monthly: 0, annual: 1 }
   attr_accessor :total_cost

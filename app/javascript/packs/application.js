@@ -9,7 +9,6 @@ require("@rails/activestorage").start()
 require("channels")
 
 require("chartkick").use(require("highcharts"))
-
 require('jquery')
 
 // Uncomment to copy all static images under ../images to the output folder and reference
@@ -22,7 +21,6 @@ require('jquery')
 import 'bootstrap';
 import '../stylesheets/application';
 
-
 $(function(){
-  $('.flash').fadeOut(2000);
+  $('.alert, .notice').fadeOut(2000);
 });

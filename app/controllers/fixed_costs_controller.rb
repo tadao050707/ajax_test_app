@@ -28,11 +28,10 @@ class FixedCostsController < ApplicationController
 
   def create
     @fixed_cost = current_user.fixed_costs.build(fixed_cost_params)
-    @fixed_cost.change_monthly_payment(params[:fixed_cost][:monthly_annual],params[:fixed_cost][:payment])
     if @fixed_cost.valid?
+      @fixed_cost.change_monthly_payment(params[:fixed_cost][:monthly_annual],params[:fixed_cost][:payment])
       @fixed_cost.save
       redirect_to user_path(current_user), notice: "「#{@fixed_cost.categories.map(&:cat_name).first}」を登録しました"
-      #flash[:notice] = "本が投稿されました"
     else
       @categories = current_user.categories.includes(:user)
       render :new

@@ -7,7 +7,7 @@ class CommentsController < ApplicationController
     @comment.send_user = current_user.id
     respond_to do |format|
       if @comment.save
-        flash.now[:notice1] = 'コメント投稿しました'
+        flash[:notice1] = 'コメント投稿しました'
         format.js { render :index }
       else
         flash.now[:notice1] = '文字を入力してください'
