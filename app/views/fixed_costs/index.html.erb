@@ -33,10 +33,11 @@
               <% num = 0 %>
               <% @user_total_cost.each do |uid, value| %>
                 <tr>
-                  <td>第<%= num += 1 %>位</td>
-                  <td class="pl-3"><%= link_to "#{User.find(uid).name}", user_path(uid) %></td>
-                  <td><%= value %>円</td>
-                  <!-- <td><%#= @total_monthly.sum.to_s(:delimited) %>円</td> -->
+                  <% if value > 30000 %>
+                    <td>第<%= num += 1 %>位</td>
+                    <td class="pl-3"><%= link_to "#{User.find(uid).name}", user_path(uid) %></td>
+                    <td><%= value.to_s(:delimited) %>円</td>
+                  <% end %>
                 </tr>
               <%# break if i == 5 %>
               <% end %>
@@ -76,9 +77,9 @@
               </div>
             </h6>
           </div>
-          <div class="card-footer bg-transparent">
-            <small><%= l user.updated_at, format: :mid %></small>
-            <%= render 'relationships/follow_form', user: user %>
+          <div class="card-footer bg-transparent d-flex justify-content-between">
+            <small class="pt-1"><%= l user.updated_at, format: :mid %></small>
+            <%= render 'relationships/follow_form', user: user if current_user != user %>
           </div>
         </div>
       <% end %>

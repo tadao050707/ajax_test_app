@@ -32,6 +32,7 @@ class FixedCostsController < ApplicationController
     if @fixed_cost.valid?
       @fixed_cost.save
       redirect_to user_path(current_user), notice: "「#{@fixed_cost.categories.map(&:cat_name).first}」を登録しました"
+      #flash[:notice] = "本が投稿されました"
     else
       @categories = current_user.categories.includes(:user)
       render :new

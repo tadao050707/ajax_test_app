@@ -21,7 +21,7 @@
         <% else %>
           <%= link_to "月額表示", user_path(params[:id], monthly_view: "true"), class: "btn btn-primary btn-sm" %>
         <% end %>
-        <%= render 'relationships/follow_form', user: @user %>
+        <%= render 'relationships/follow_form', user: @user if current_user != @user %>
       </div>
 <% if false %>
       <% total_annual = [] %>
