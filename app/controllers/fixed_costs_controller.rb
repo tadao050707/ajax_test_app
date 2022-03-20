@@ -10,15 +10,25 @@ class FixedCostsController < ApplicationController
     @rankings = @rankings.where(adult_number: params[:adult_number]).where(child_number: params[:child_number]) if params[:commit] == "検索"
 
     @user_total_cost = {}
-    @rankings.each {|ranking|
+
+    # @rankings.each {|ranking|
+    #   total_cost = 0
+    #   ranking.fixed_costs.each {|fixed_cost|
+    #     total_cost += monthly_payment(fixed_cost) if fixed_cost.monthly_annual == "annual"
+    #     total_cost += fixed_cost.payment if fixed_cost.monthly_annual == "monthly"
+    #   }
+    #   @user_total_cost.store(ranking.id, total_cost)
+    # }
+    # @user_total_cost = @user_total_cost.sort_by{ |_, v| v}.to_h
+    #---------------------
+    @rankings.each do |user|
       total_cost = 0
-      ranking.fixed_costs.each {|fixed_cost|
-        total_cost += monthly_payment(fixed_cost) if fixed_cost.monthly_annual == "annual"
-        total_cost += fixed_cost.payment if fixed_cost.monthly_annual == "monthly"
-      }
-      @user_total_cost.store(ranking.id, total_cost)
-    }
-    @user_total_cost = @user_total_cost.sort_by{ |_, v| v}.to_h
+      cost = user.fixed_costs.map(&:payment)
+      total_cost = cost.sum
+      @user_total_cost.store(user.id, total_cost)
+    end
+    @user_total_cost = @user_total_cost.sort_by{ |_, v| v }.to_h
+
   end
 
   def new
@@ -50,10 +60,9 @@ class FixedCostsController < ApplicationController
 
   def destroy
     if @fixed_cost.destroy
-      flash[:success] = '削除しました'
       redirect_to user_path(current_user), notice: "削除しました"
     else
-      flash[:danger] = '削除に失敗しました'
+      flash.now[:danger] = '削除に失敗しました'
       redirect_to user_path(current_user)
     end
   end

@@ -24,7 +24,6 @@
             </thead>
 
             <%# @rankings.each.with_index(1) do |ranking, i| %>
-
               <%# @total_monthly = [] %>
               <%# ranking.fixed_costs.each do |fixed_cost| %>
                 <%# if fixed_cost.monthly_annual == "annual" %>
@@ -56,6 +55,8 @@
       <!-- カードで設計 -->
       <% @users.each do |user| %>
         <div class="card shadow-sm mb-2" style="max-width: 25rem; margin: 0 auto; ">
+          
+<% if false %>
           <% total_monthly = [] %>
           <% user.fixed_costs.each do |fixed_cost| %>
             <% if fixed_cost.monthly_annual == "annual" %>
@@ -64,19 +65,18 @@
               <% total_monthly << fixed_cost.payment %>
             <% end %>
           <% end %>
+<% end %>
 
           <div class="card-body pb-1">
             <h6 class="card-title">
               <div class="">
-                <div class="">
-                  <% if user.image.present? %>
-                      <%= image_tag user.image.url, class: "rounded-circle", width: "10%" if user.image && user.image.url %>
-                  <% end %>
-                  <%= link_to "#{user.name}", user_path(user.id) %>
-                </div>
-                <div class="mt-1">
-                  月額支出：<strong><%= total_monthly.sum.to_s(:delimited) %>円</strong>
-                </div>
+                <% if user.image.present? %>
+                    <%= image_tag user.image.url, class: "rounded-circle", width: "10%" if user.image && user.image.url %>
+                <% end %>
+                <%= link_to "#{user.name}", user_path(user.id) %>
+              </div>
+              <div class="mt-1">
+                月額支出：<strong><%= user.fixed_costs.sum(:payment).to_s(:delimited) %>円</strong>
               </div>
             </h6>
           </div>
