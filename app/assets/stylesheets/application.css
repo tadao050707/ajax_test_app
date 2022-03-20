@@ -26,6 +26,10 @@ main {
 background-color: aqua;
 }
 
+.sticky-top {
+  z-index:10000
+}
+
 .no-gutters {
  margin: 0;
  padding: 0;
