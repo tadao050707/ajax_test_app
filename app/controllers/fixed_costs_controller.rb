@@ -10,7 +10,7 @@ class FixedCostsController < ApplicationController
     @rankings = @rankings.where(adult_number: params[:adult_number]).where(child_number: params[:child_number]) if params[:commit] == "検索"
 
     @user_total_cost = {}
-
+    #---------------------------
     # @rankings.each {|ranking|
     #   total_cost = 0
     #   ranking.fixed_costs.each {|fixed_cost|
