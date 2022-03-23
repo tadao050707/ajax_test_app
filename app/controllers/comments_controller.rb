@@ -5,8 +5,12 @@ class CommentsController < ApplicationController
   def create
     @comment = @user.comments.build(comment_params)
     @comment.send_user = current_user.id
+    binding.pry
+    @comment_user = @comment.user
+
     respond_to do |format|
       if @comment.save
+        @comment_user.create_notification_comment!(current_user, @comment.id)
         flash[:notice1] = 'コメント投稿しました'
         format.js { render :index }
       else

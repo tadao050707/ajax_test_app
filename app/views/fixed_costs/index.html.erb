@@ -3,59 +3,57 @@
   <div class="row">
     <div class="col-sm-4" id="sticky-sidebar">
       <div class="sticky-top pl-1">
-        <!-- <div class="nav flex-column pl-1">必要なし？ -->
         <div class="space">
           <span>　　　</span>
         </div>
-          <h2 class="text-center">固定支出ランキング</h2>
-          <%= form_with(url: fixed_costs_path, method: :get, local: true) do |form| %>
-            大人：<%= form.select :adult_number, 1..10, include_blank: "" %>人　
-            子供：<%= form.select :child_number, 0..10, include_blank: "" %>人
-            <%= form.submit '検索' %>
-          <% end %>
+        <h2 class="text-center">固定支出ランキング</h2>
+        <%= form_with(url: fixed_costs_path, method: :get, local: true) do |form| %>
+          大人：<%= form.select :adult_number, 1..10, include_blank: "" %>人　
+          子供：<%= form.select :child_number, 0..10, include_blank: "" %>人
+          <%= form.submit '検索' %>
+        <% end %>
 
-          <table class="table table-sm mt-1">
-            <thead class="thead-light">
-              <tr>
-                <th>順位</th>
-                <th></th>
-                <th>月額合計</th>
-              </tr>
-            </thead>
-
-            <%# @rankings.each.with_index(1) do |ranking, i| %>
-              <%# @total_monthly = [] %>
-              <%# ranking.fixed_costs.each do |fixed_cost| %>
-                <%# if fixed_cost.monthly_annual == "annual" %>
-                  <%# @total_monthly << monthly_payment(fixed_cost) %>
-                <%# elsif fixed_cost.monthly_annual == "monthly" %>
-                  <%# @total_monthly << fixed_cost.payment %>
-                <%# end %>
+        <table class="table table-sm mt-1">
+          <thead class="thead-light">
+            <tr>
+              <th>順位</th>
+              <th></th>
+              <th>月額合計</th>
+            </tr>
+          </thead>
+<% if false %>
+          <%# @rankings.each.with_index(1) do |ranking, i| %>
+            <%# @total_monthly = [] %>
+            <%# ranking.fixed_costs.each do |fixed_cost| %>
+              <%# if fixed_cost.monthly_annual == "annual" %>
+                <%# @total_monthly << monthly_payment(fixed_cost) %>
+              <%# elsif fixed_cost.monthly_annual == "monthly" %>
+                <%# @total_monthly << fixed_cost.payment %>
               <%# end %>
-              <% num = 0 %>
-              <% @user_total_cost.each do |uid, value| %>
-                <tr>
-                  <% if value > 30000 %>
-                    <td>第<%= num += 1 %>位</td>
-                    <td class="pl-3"><%= link_to "#{User.find(uid).name}", user_path(uid) %></td>
-                    <td><%= value.to_s(:delimited) %>円</td>
-                  <% end %>
-                </tr>
-              <%# break if i == 5 %>
-              <% end %>
+            <%# end %>
 
-          </table>
-        <!-- </div> -->
+            <%# break if i == 5 %>
+<% end %>
+          <% num = 0 %>
+          <% @user_total_cost.each do |uid, value| %>
+            <tr>
+              <% if value > 30000 %>
+                <td>第<%= num += 1 %>位</td>
+                <td class="pl-3"><%= link_to "#{User.find(uid).name}", user_path(uid) %></td>
+                <td><%= value.to_s(:delimited) %>円</td>
+              <% end %>
+            </tr>
+          <% end %>
+        </table>
       </div>
     </div>
 
     <div class="col-sm-5" >
-    <!-- <div class="d-flex justify-content-center"> -->
       <h2 class="text-center">みんなの固定費一覧</h2>
       <!-- カードで設計 -->
       <% @users.each do |user| %>
         <div class="card shadow-sm mb-2" style="max-width: 25rem; margin: 0 auto; ">
-          
+
 <% if false %>
           <% total_monthly = [] %>
           <% user.fixed_costs.each do |fixed_cost| %>

@@ -13,12 +13,15 @@ class User < ApplicationRecord
   has_many :fixed_costs, dependent: :destroy
   has_many :categories, dependent: :destroy
   has_many :comments, dependent: :destroy
-  # has_many :bookmarks, dependent: :destroy
-  # has_many :bookmark_fixed_costs, through: :bookmarks, source: :fixed_cost
   has_many :active_relationships, foreign_key: 'follower_id', class_name: 'Relationship', dependent: :destroy
   has_many :passive_relationships, foreign_key: 'followed_id', class_name: 'Relationship', dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
+
+  has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
+  has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
+
+  # has_many :notifications, dependent: :destroy
 
   mount_uploader :image, ImageUploader
 
@@ -53,15 +56,54 @@ class User < ApplicationRecord
     result
   end
 
-  #指定のユーザをフォローする
   def follow!(other_user)
     active_relationships.create!(followed_id: other_user.id)
   end
-  #フォローしているかどうかを確認する
   def following?(other_user)
     active_relationships.find_by(followed_id: other_user.id)
   end
   def unfollow!(other_user)
     active_relationships.find_by(followed_id: other_user.id).destroy
   end
+
+  def create_notification_follow!(current_user)
+    temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ?", current_user.id, id, 'follow'])
+    if temp.blank?
+      notification = current_user.active_notifications.new(
+        visited_id: id,
+        action: 'follow'
+      )
+      notification.save if notification.valid?
+    end
+  end
+  def create_notification_comment!(current_user, comment_id)
+    # binding.pry
+    # コメントをしている人全てを取得して、全員に通知を送る（同じ人はまとめる）。また他のコメント投稿者にも通知をする。
+    # temp_ids = Comment.select(:user_id).where(post_id: id).where.not(user_id: current_user.id).distinct
+    temp_ids = Comment.select(:user_id).where.not(user_id: current_user.id).distinct
+    temp_ids.each do |temp_id|
+      # binding.pry
+      save_notification_comment!(current_user, comment_id, temp_id['user_id'])
+    end
+    # まだ誰もコメントしてない場合は、投稿者に通知を送る
+    save_notification_comment!(current_user, comment_id, user_id) if temp_ids.blank?
+  end
+
+  def save_notification_comment!(current_user, comment_id, visited_id)
+    # 複数回コメントをするかもしれないので、１つの投稿に複数回通知する
+    notification = current_user.active_notifications.new(
+      # post_id: id,
+      # send_user: id,
+      user_id: id,
+      comment_id: comment_id,
+      visited_id: visited_id,
+      action: 'comment'
+    )
+    # 自分の投稿に対するコメントは、通知済みとする
+    if notification.visitor_id == notification.visited_id
+      notification.checked = true
+    end
+    notification.save if notification.valid?
+  end
+
 end

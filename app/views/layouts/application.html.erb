@@ -32,6 +32,9 @@
                 <%= link_to "マイページ", mypage_user_path(current_user.id), class: "text-secondary" %>
               </li>
               <li class="nav-item ml-3">
+                <%= render partial: 'notifications/circle' %>
+              </li>
+              <li class="nav-item ml-3">
                 <%= link_to I18n.t('views.messages.logout'), destroy_user_session_path, method: :delete, class: "text-secondary" %>
               </li>
               <li class="nav-item ml-3" id="id_admin">
@@ -59,7 +62,7 @@
           <p class="alert alert-error"><%= alert %></p>
         <% end %>
       </div>
-      
+
       <%= yield %>
 
     </main>

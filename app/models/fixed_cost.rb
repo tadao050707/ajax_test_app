@@ -6,6 +6,7 @@ class FixedCost < ApplicationRecord
   belongs_to :user
   has_many :categorizations, dependent: :destroy
   has_many :categories, through: :categorizations
+  # has_many :notifications, dependent: :destroy
 
   enum monthly_annual: { monthly: 0, annual: 1 }
   attr_accessor :total_cost
