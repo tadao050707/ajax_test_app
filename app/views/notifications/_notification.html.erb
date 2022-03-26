@@ -1,36 +1,51 @@
 <% visitor = notification.visitor %>
 <% visited = notification.visited %>
 <div class="col-md-6 mx-auto">
+  <% if notification.user == current_user %>
   <div class="form-inline">
     <span>
       <%= link_to user_path(visitor) do %>
         <%#= image_tag avatar_url(visitor).to_s, class: "icon_mini" %>
         <strong><%= visitor.name %></strong>
       <% end %>
-      <%= 'さんが' %>
-
+      さんが
       <% case notification.action %>
       <% when 'follow' then %>
         <%= "あなたをフォローしました" %>
       <% when 'comment' then %>
-        <% if notification.user.id == visited.id %>
+        <% if notification.user.id == visited.id  %>
+        <%# if notification.visited.id == current_user.id  %>
           <%= link_to "あなたの投稿", notification.user, style: "font-weight: bold;" %>
         <% else %>
           <span>
-            <%= link_to user_path(notification.user) do %>
+            <%= link_to user_path(notification.user) do %><!--変更-->
               <%#= image_tag  %>
-              <strong><%= notification.user.name + "さんの投稿"%></strong>
+              <strong><%= notification.user.name + "さんの投稿"%></strong><!--変更-->
             <% end %>
           </span>
         <% end %>
         <%= "にコメントしました" %>
       <% end %>
 
-      <p class="text-muted mb-0"><%= Comment.find_by(id: notification.comment_id)&.comment %></p>
+      <p class="text-muted mb-0"><%= Comment.find_by(id: notification.comment_id)&.content %></p><!--変更-->
     </span>
   </div>
   <div class="small text-muted text-right">
     <%= time_ago_in_words(notification.created_at).upcase %>
   </div>
   <hr>
+  <% end %>
+
+  <% case notification.action %>
+  <% when 'follow' then %>
+    <%= link_to user_path(visitor) do %>
+      <%#= image_tag avatar_url(visitor).to_s, class: "icon_mini" %>
+      <strong><%= visitor.name %></strong>
+    <% end %>
+    さんが あなたをフォローしました
+    <div class="small text-muted text-right">
+      <%= time_ago_in_words(notification.created_at).upcase %>
+    </div>
+    <hr>
+  <% end %>
 </div>

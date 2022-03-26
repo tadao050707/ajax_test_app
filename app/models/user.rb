@@ -21,7 +21,7 @@ class User < ApplicationRecord
   has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
   has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
 
-  # has_many :notifications, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   mount_uploader :image, ImageUploader
 
@@ -40,7 +40,6 @@ class User < ApplicationRecord
       user.name = "ゲストadminユーザー"
     end
   end
-
 
   attr_accessor :current_password
 
@@ -76,13 +75,11 @@ class User < ApplicationRecord
       notification.save if notification.valid?
     end
   end
+
   def create_notification_comment!(current_user, comment_id)
-    # binding.pry
     # コメントをしている人全てを取得して、全員に通知を送る（同じ人はまとめる）。また他のコメント投稿者にも通知をする。
-    # temp_ids = Comment.select(:user_id).where(post_id: id).where.not(user_id: current_user.id).distinct
     temp_ids = Comment.select(:user_id).where.not(user_id: current_user.id).distinct
     temp_ids.each do |temp_id|
-      # binding.pry
       save_notification_comment!(current_user, comment_id, temp_id['user_id'])
     end
     # まだ誰もコメントしてない場合は、投稿者に通知を送る
@@ -92,8 +89,6 @@ class User < ApplicationRecord
   def save_notification_comment!(current_user, comment_id, visited_id)
     # 複数回コメントをするかもしれないので、１つの投稿に複数回通知する
     notification = current_user.active_notifications.new(
-      # post_id: id,
-      # send_user: id,
       user_id: id,
       comment_id: comment_id,
       visited_id: visited_id,

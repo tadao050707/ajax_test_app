@@ -6,7 +6,7 @@
         <div class="space">
           <span>　　　</span>
         </div>
-        <h2 class="text-center">固定支出ランキング</h2>
+        <h2 class="text-center">固定費低支出ランキング</h2>
         <%= form_with(url: fixed_costs_path, method: :get, local: true) do |form| %>
           大人：<%= form.select :adult_number, 1..10, include_blank: "" %>人　
           子供：<%= form.select :child_number, 0..10, include_blank: "" %>人

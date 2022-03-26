@@ -8,18 +8,12 @@ class UsersController < ApplicationController
 
   def show
     user = User.find(params[:id])
-    # @fixed_costs = user.fixed_costs.includes(user: [:categories])
     @fixed_costs = user.fixed_costs
 
     @comments = @user.comments.desc_sort
     @comment = @user.comments.build
 
     params[:monthly_view].nil? ? @monthly_view = "true" : @monthly_view = params[:monthly_view]
-    # if params[:monthly_view].nil?
-    #   @monthly_view = "true"
-    # else
-    #   @monthly_view = params[:monthly_view]
-    # end
 
     #viewから受け取ったパラメーターを年額表示にする
     @join_monthlies_cost = @fixed_costs.joins(:categories).where(monthly_annual: 1).or(@fixed_costs.joins(:categories).where(monthly_annual: 0)).group("categories.cat_name").sum(:payment)

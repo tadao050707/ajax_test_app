@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
   def create
     @comment = @user.comments.build(comment_params)
     @comment.send_user = current_user.id
-    binding.pry
+
     @comment_user = @comment.user
 
     respond_to do |format|
@@ -19,14 +19,6 @@ class CommentsController < ApplicationController
       end
     end
   end
-
-  # def edit
-  #   @comment = @user.comments.find(params[:id])
-  #   respond_to do |format|
-  #     # flash.now[:notice] = 'コメント内容を変更しました'
-  #     format.js { render :edit }
-  #   end
-  # end
 
   def update
     @comment = @user.comments.find(params[:id])
