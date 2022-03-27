@@ -1,6 +1,5 @@
 class FixedCostsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
-  # before_action :login_check, except: [:index]
   before_action :set_fixed_cost, only: %i[ edit update destroy ]
 
   def index
@@ -10,17 +9,6 @@ class FixedCostsController < ApplicationController
     @rankings = @rankings.where(adult_number: params[:adult_number]).where(child_number: params[:child_number]) if params[:commit] == "検索"
 
     @user_total_cost = {}
-    #---------------------------
-    # @rankings.each {|ranking|
-    #   total_cost = 0
-    #   ranking.fixed_costs.each {|fixed_cost|
-    #     total_cost += monthly_payment(fixed_cost) if fixed_cost.monthly_annual == "annual"
-    #     total_cost += fixed_cost.payment if fixed_cost.monthly_annual == "monthly"
-    #   }
-    #   @user_total_cost.store(ranking.id, total_cost)
-    # }
-    # @user_total_cost = @user_total_cost.sort_by{ |_, v| v}.to_h
-    #---------------------
     @rankings.each do |user|
       total_cost = 0
       cost = user.fixed_costs.map(&:payment)
@@ -75,12 +63,5 @@ class FixedCostsController < ApplicationController
 
   def set_fixed_cost
     @fixed_cost = current_user.fixed_costs.find(params[:id])
-  end
-
-  def login_check
-    unless user_signed_in?
-      flash[:alert] = "ログインしてください"
-      redirect_to root_path
-    end
   end
 end

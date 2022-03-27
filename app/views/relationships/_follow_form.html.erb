@@ -1,15 +1,17 @@
 <div id="follow_form_<%= user.id %>">
-  <% unless current_user.following?(user) %>
-    <%= form_with(model: current_user.active_relationships.build(followed_id: user.id)) do |f| %>
-      <%= f.hidden_field :followed_id %>
-      <%= button_tag type: "submit", class: "btn btn-sm" do %>
-        <i class="fa-regular fa-heart"></i>フォローする
+  <% if user_signed_in? %>
+    <% unless current_user.following?(user) %>
+      <%= form_with(model: current_user.active_relationships.build(followed_id: user.id)) do |f| %>
+        <%= f.hidden_field :followed_id %>
+        <%= button_tag type: "submit", class: "btn btn-sm" do %>
+          <i class="fa-regular fa-heart"></i>フォローする
+        <% end %>
       <% end %>
-    <% end %>
-  <% else %>
-    <%= form_with(model: current_user.active_relationships.find_by(followed_id: user.id), method: :delete ) do |f| %>
-      <%= button_tag type: "submit", class: "btn btn-sm text-danger" do %>
-        <i class="fa-solid fa-heart"></i>フォロー中
+    <% else %>
+      <%= form_with(model: current_user.active_relationships.find_by(followed_id: user.id), method: :delete ) do |f| %>
+        <%= button_tag type: "submit", class: "btn btn-sm text-danger" do %>
+          <i class="fa-solid fa-heart"></i>フォロー中
+        <% end %>
       <% end %>
     <% end %>
   <% end %>

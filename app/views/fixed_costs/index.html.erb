@@ -21,19 +21,7 @@
               <th>月額合計</th>
             </tr>
           </thead>
-<% if false %>
-          <%# @rankings.each.with_index(1) do |ranking, i| %>
-            <%# @total_monthly = [] %>
-            <%# ranking.fixed_costs.each do |fixed_cost| %>
-              <%# if fixed_cost.monthly_annual == "annual" %>
-                <%# @total_monthly << monthly_payment(fixed_cost) %>
-              <%# elsif fixed_cost.monthly_annual == "monthly" %>
-                <%# @total_monthly << fixed_cost.payment %>
-              <%# end %>
-            <%# end %>
 
-            <%# break if i == 5 %>
-<% end %>
           <% num = 0 %>
           <% @user_total_cost.each do |uid, value| %>
             <tr>
@@ -53,18 +41,6 @@
       <!-- カードで設計 -->
       <% @users.each do |user| %>
         <div class="card shadow-sm mb-2" style="max-width: 25rem; margin: 0 auto; ">
-
-<% if false %>
-          <% total_monthly = [] %>
-          <% user.fixed_costs.each do |fixed_cost| %>
-            <% if fixed_cost.monthly_annual == "annual" %>
-              <% total_monthly << monthly_payment(fixed_cost) %>
-            <% elsif fixed_cost.monthly_annual == "monthly" %>
-              <% total_monthly << fixed_cost.payment %>
-            <% end %>
-          <% end %>
-<% end %>
-
           <div class="card-body pb-1">
             <h6 class="card-title">
               <div class="">
