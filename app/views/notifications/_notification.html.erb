@@ -5,7 +5,7 @@
   <div class="form-inline">
     <span>
       <%= link_to user_path(visitor) do %>
-        <%#= image_tag avatar_url(visitor).to_s, class: "icon_mini" %>
+        <%= image_tag visitor.image.url, size: '30x30', class: "rounded-circle" if visitor.image && visitor.image.url || visitor.image.present? %>
         <strong><%= visitor.name %></strong>
       <% end %>
       さんが
@@ -39,7 +39,7 @@
   <% case notification.action %>
   <% when 'follow' then %>
     <%= link_to user_path(visitor) do %>
-      <%#= image_tag avatar_url(visitor).to_s, class: "icon_mini" %>
+      <%= image_tag visitor.image.url, size: '30x30', class: "rounded-circle" if visitor.image && visitor.image.url || visitor.image.present? %>
       <strong><%= visitor.name %></strong>
     <% end %>
     さんが あなたをフォローしました

@@ -225,3 +225,9 @@ ja:
     words:
       monthly: "月額"
       annual: "年額"
+    pagination:
+      first: "«"
+      last: "»"
+      previous: "‹"
+      next: "›"
+      truncate: "..."

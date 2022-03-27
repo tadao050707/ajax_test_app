@@ -2,7 +2,7 @@
 <% notifications = @notifications.where.not(visitor_id: current_user.id) %>
 <% if notifications.exists? %>
   <%= render notifications %>
-  <%= paginate notifications %>
+  <%= paginate notifications, theme: 'twitter-bootstrap-4' %>
 <% else %>
   <p>通知はありません</p>
 <% end %>

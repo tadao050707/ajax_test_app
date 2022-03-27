@@ -4,7 +4,7 @@ class FixedCostsController < ApplicationController
   before_action :set_fixed_cost, only: %i[ edit update destroy ]
 
   def index
-    @users = User.includes(:fixed_costs).desc_sort
+    @users = User.includes(:fixed_costs).desc_sort.page(params[:page]).per(20)
     @rankings = User.includes(:fixed_costs)
 
     @rankings = @rankings.where(adult_number: params[:adult_number]).where(child_number: params[:child_number]) if params[:commit] == "検索"
