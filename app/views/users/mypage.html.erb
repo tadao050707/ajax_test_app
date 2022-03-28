@@ -3,11 +3,9 @@
     <div class="col-sm-4 ml-2 ">
       <div class="mb-1"><%= link_to "アカウント設定", edit_user_registration_path if current_user.id == @user.id %></div>
       <div class=""><%= link_to "固定費の作成", new_fixed_cost_path %></div>
-
     </div>
 
     <div class="col-sm-4">
-
       <h2 class="text-center">マイページ</h2>
       <br>
       <div class="">
@@ -18,21 +16,22 @@
       </div><br>
 
       <small class="text-muted">プロフィール</small>
-      <div class="card shadow-sm p-2">
+      <div class="card shadow-sm p-3 ">
         <%= @user.profile %>
       </div><br>
 
       <small class="text-muted">家族構成</small>
-      <div class="card shadow-sm p-2">
+      <div class="card shadow-sm p-3">
         大人：<%= @user.adult_number %>人　
         子供：<%= @user.child_number %>人
       </div><br>
 
       <small class="text-muted">フォロー中のユーザー</small>
+      <div class="card shadow-sm p-3">
       <% current_user.following.each do |follow_user| %>
         <%= link_to "#{follow_user.name}", user_path(follow_user.id) %>
       <% end %>
-
+      </div>
     </div>
 
     <div class="col-sm-4">

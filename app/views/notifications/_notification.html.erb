@@ -2,6 +2,9 @@
 <% visited = notification.visited %>
 <div class="col-md-6 mx-auto">
   <% if notification.user == current_user %>
+  <%# if notification.user == current_user || visited.id == notification.comment.try!(&:send_user) %>
+  <%# if notification.user == current_user || current_user.comments.exists? %>
+  <%# binding.pry %>
   <div class="form-inline">
     <span>
       <%= link_to user_path(visitor) do %>

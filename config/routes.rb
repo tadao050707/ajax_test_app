@@ -6,7 +6,11 @@ Rails.application.routes.draw do
   resources :fixed_costs, except: [:show]
   resources :categories
   resources :relationships, only: [:create, :destroy]
-  resources :notifications, only: :index
+  resources :notifications, only: [:index] do
+    collection do
+      delete 'destroy_all'
+    end
+  end
 
   devise_for :users, controllers: {
     registrations: 'users/registrations',

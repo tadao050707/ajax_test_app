@@ -23,31 +23,14 @@
         <% end %>
         <%= render 'relationships/follow_form', user: @user if current_user != @user %>
       </div>
-<% if false %>
-      <% total_annual = [] %>
-      <% total_monthly = [] %>
-      <% @fixed_costs.each do |fixed_cost| %>
-        <% switch_annual_monthly(total_annual, total_monthly, @monthly_view, fixed_cost) %>
-      <% end %>
 
-      <div class="mx-auto" style="width: 350px;">
-        <% if @monthly_view == "true" %>
-          <%= pie_chart @costs, label: "合計", library: {title: {text: "月額支出<br>#{total_monthly.sum.to_s(:delimited)}円 "}} %>
-        <% else %>
-          <%= pie_chart @costs, label: "合計", library: {title: {text: "年額支出<br>#{total_annual.sum.to_s(:delimited)}円 "}} %>
-        <% end %>
-      </div>
-<% end %>
-
-      <div class="mx-auto" style="width: 350px;">
+      <div class="graph mx-auto" style="width: 350px;">
         <% if @monthly_view == "true" %>
           <%= pie_chart @join_monthlies_cost, label: "合計", library: {title: {text: "月額支出<br>#{@fixed_costs.map(&:payment).sum.to_s(:delimited)}円 "}} %>
         <% else %>
           <%= pie_chart @join_annuals_cost, label: "合計", library: {title: {text: "年額支出<br>#{@fixed_costs.map(&:payment).sum{|i| i * 12 }.to_s(:delimited)}円 "}} %>
         <% end %>
       </div>
-
-
 
       <table class="table table-sm">
         <thead class="thead-light">
@@ -69,18 +52,7 @@
           <% else %>
             <td><%= fixed_cost.categories.map(&:cat_name).first %></td>
           <% end %>
-<% if false %>
-          <% if @monthly_view == "true" && fixed_cost.monthly_annual == "annual" %>
-            <td><%= I18n.t('views.words.monthly') %></td>
-            <td><%= monthly_payment(fixed_cost).to_s(:delimited) %>円 </td>
-          <% elsif @monthly_view == "false" && fixed_cost.monthly_annual == "monthly" %>
-            <td><%= I18n.t('views.words.annual') %></td>
-            <td><%= annual_payment(fixed_cost).to_s(:delimited) %>円 </td>
-          <% else %>
-            <td><%= fixed_cost.monthly_annual_i18n %></td>
-            <td><%= fixed_cost.payment.to_s(:delimited) %>円 </td>
-          <% end %>
-<% end %>
+
 <!-- リファクタリング -->
           <% if @monthly_view == "true" %>
             <td><%= I18n.t('views.words.monthly') %></td>
@@ -117,8 +89,6 @@
       <div id="comments_area">
         <%= render partial: 'comments/index', locals: { comments: @comments, user: @user } %>
       </div>
-      <%#= render partial: 'comments/form', locals: { comment: @comment, user: @user } %>
-      <%#= link_to '戻る' %>
     </div>
 
     <div class="col-md-3">

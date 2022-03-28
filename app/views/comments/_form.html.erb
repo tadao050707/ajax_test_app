@@ -17,16 +17,20 @@
 
     <div class="col-10 mx-0">
       <div class="field">
-        <%#= form.label :content %>
         <%= form.text_area :content, class: 'form-control', placeholder: "コメントする" %>
       </div>
     </div>
-
+<% if false %>
     <div class="col-1 align-self-center p-0">
       <div class="actions">
         <%= form.submit '送信', class: "btn btn-primary btn-sm" %>
       </div>
     </div>
+<% end %>
+    <div class="col-1 align-self-center p-0">
+        <%= button_tag type: "submit", class: "btn btn-primary " do %>
+          <i class="fa fa-paper-plane "></i>
+        <% end %>
+    </div>
   </div>
-
 <% end %>
