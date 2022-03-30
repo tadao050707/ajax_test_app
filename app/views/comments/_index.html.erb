@@ -3,13 +3,15 @@
     <cbody class ="comment">
       <div class="card mx-auto mb-2" >
         <div class="card-header">
-          <div class="comment-content" id ="this_comment_<%= comment.id %>"></div>
-          <%= User.find(comment.send_user).name %>さんの投稿
-          投稿日：<%= l comment.created_at, format: :long %>
-
+          <div class="comment-content d-flex justify-content-between" id ="this_comment_<%= comment.id %>"></div>
+          <div class="d-flex justify-content-between text-muted">
+            <%= User.find(comment.send_user).name %>さんの投稿
+            <small>投稿日：<%= l comment.created_at, format: :long %></small>
+          </div>
           <% if current_user.id == comment.send_user %>
-            <%#= link_to "コメント編集", edit_user_comment_path(user, comment), remote: true, class: 'btn btn-outline-primary btn-sm' %>
-            <%= link_to "コメント削除", user_comment_path(comment.user_id, comment.id), class: 'btn btn-outline-danger btn-sm', method: :delete, remote: true, data: { confirm: "本当に削除しますか?"} %>
+            <%= link_to user_comment_path(comment.user_id, comment.id), class: 'btn btn-outline-danger btn-sm', method: :delete, remote: true, data: { confirm: "本当に削除しますか?"}  do %>
+              <i class="fa fa-trash" style="color: red;"></i>
+            <% end %>
           <% end %>
         </div>
         <div class="card-body">

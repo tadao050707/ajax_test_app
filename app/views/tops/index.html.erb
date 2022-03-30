@@ -1,7 +1,5 @@
 <div class="jumbotron jumbotron-fluid mb-0">
   <div class="container-fluid">
-
-
     <h1 class="text-info">みんなの家計簿投稿</h1>
     <br>
     <h2>みんなの固定支出を参考にして</h2>
@@ -24,6 +22,5 @@
     <p><i>利用方法は<%= link_to "こちらをクリック", new_top_path, class: "text-white font-weight-bold" %></i></p>
     <br><br>
     <%= link_to I18n.t('views.messages.login'), new_user_session_path, class: "btn btn-outline-primary" unless user_signed_in?%>
-
   </div>
 </div>

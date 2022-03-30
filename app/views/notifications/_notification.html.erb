@@ -1,44 +1,55 @@
-<% visitor = notification.visitor %>
-<% visited = notification.visited %>
+<% visitor = notification.visitor %> <!-- 通知を送ったユーザーのid  -->
+<% visited = notification.visited %> <!-- 通知を送られた人  -->
 <div class="col-md-6 mx-auto">
-  <% if notification.user == current_user %>
+  <%# if notification.user == current_user %>
   <%# if notification.user == current_user || visited.id == notification.comment.try!(&:send_user) %>
-  <%# if notification.user == current_user || current_user.comments.exists? %>
-  <%# binding.pry %>
-  <div class="form-inline">
-    <span>
-      <%= link_to user_path(visitor) do %>
-        <%= image_tag visitor.image.url, size: '30x30', class: "rounded-circle" if visitor.image && visitor.image.url || visitor.image.present? %>
-        <strong><%= visitor.name %></strong>
-      <% end %>
-      さんが
-      <% case notification.action %>
-      <% when 'follow' then %>
-        <%= "あなたをフォローしました" %>
-      <% when 'comment' then %>
-        <% if notification.user.id == visited.id  %>
-        <%# if notification.visited.id == current_user.id  %>
-          <%= link_to "あなたの投稿", notification.user, style: "font-weight: bold;" %>
-        <% else %>
-          <span>
-            <%= link_to user_path(notification.user) do %><!--変更-->
-              <%#= image_tag  %>
-              <strong><%= notification.user.name + "さんの投稿"%></strong><!--変更-->
-            <% end %>
-          </span>
-        <% end %>
-        <%= "にコメントしました" %>
-      <% end %>
+  <%# if notification.user == current_user || visitor.id == notification.user.id  %>
+  <%# if notification.user == current_user || visitor.id == notification.try!(&:user).try!(&:id)  %>
+  <%# if notification.user == current_user || visitor.id && notification.try!(&:user).try!(&:id) != current_user.id  %>
+  <%# if Comment.where(send_user: current_user.id).pluck(:user_id).uniq.include?(current_user.id) && Comment.where(send_user: visitor.id).pluck(:user_id).uniq.include?(current_user.id) && Comment.where(send_user: notification.user&.id).pluck(:user_id).uniq.include?(current_user.id) && Comment.where(user_id: notification.user&.id).pluck(:send_user).uniq.include?(current_user.id) %>
 
-      <p class="text-muted mb-0"><%= Comment.find_by(id: notification.comment_id)&.content %></p><!--変更-->
-    </span>
-  </div>
-  <div class="small text-muted text-right">
-    <%= time_ago_in_words(notification.created_at).upcase %>
-  </div>
-  <hr>
+  <% if Comment.where(send_user: current_user.id).pluck(:user_id).uniq.include?(current_user.id) && Comment.where(send_user: notification.user&.id).pluck(:user_id).uniq.include?(current_user.id) && Comment.where(user_id: notification.user&.id).pluck(:send_user).uniq.include?(current_user.id) %>
+
+  <%# binding.pry %>
+    <div class="form-inline">
+      <span>
+        <%= link_to user_path(visitor) do %>
+          <%= image_tag visitor.image.url, size: '30x30', class: "rounded-circle" if visitor.image && visitor.image.url || visitor.image.present? %>
+          <!-- 自分が送った(send_user: current_user)Commentのuser_id（相手の家計簿id）に、通知を送った人(visitor)がいるか調べる  -->
+          <%# if Comment.where(send_user: current_user.id).pluck(:user_id).uniq.include?(visitor.id) %>
+            <strong><%= visitor.name %></strong>
+          <%# end %>
+        <% end %>
+        さんが
+        <% case notification.action %>
+        <% when 'follow' then %>
+          <%= "あなたをフォローしました" %>
+        <% when 'comment' then %>
+          <% if notification.user.id == visited.id  %>
+            <%= link_to "あなたの投稿", notification.user, style: "font-weight: bold;" %>
+          <% else %>
+          <!-- 自分が送ったCommentのuser_id（相手のid）を取得して、通知を送られた人(notification.user)がいるか調べる  -->
+            <%# if Comment.where(send_user: current_user.id).pluck(:user_id).uniq.include?(notification.user&.id) %>
+              <span>
+                <%= link_to user_path(notification.user) do %><!--変更-->
+                  <%#= image_tag  %>
+                  <strong><%= notification.user.name + "さんの投稿"%></strong><!--変更-->
+                <% end %>
+              </span>
+            <%# end %>
+          <% end %>
+          <%= "にコメントしました" %>
+        <% end %>
+        <p class="text-muted mb-0"><%= Comment.find_by(id: notification.comment_id)&.content %></p><!--変更-->
+      </span>
+    </div>
+    <div class="small text-muted text-right">
+      <%= time_ago_in_words(notification.created_at).upcase %>
+    </div>
+    <hr>
   <% end %>
 
+<%# if false %>
   <% case notification.action %>
   <% when 'follow' then %>
     <%= link_to user_path(visitor) do %>
@@ -51,4 +62,5 @@
     </div>
     <hr>
   <% end %>
+<%# end %>
 </div>
