@@ -4,7 +4,7 @@ class NotificationsController < ApplicationController
     @notifications = current_user.passive_notifications.page(params[:page]).per(20)
     # @notificationの中でまだ確認していない通知のみ(indexに一度も遷移していない)
     @notifications.where(checked: false).each do |notification|
-      # notification.update_attributes(checked: true)
+      # notification.update_attributes(checked: true) #非奨励
       notification.update(checked: true)
     end
   end

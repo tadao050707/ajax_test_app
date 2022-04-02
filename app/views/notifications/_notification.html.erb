@@ -8,7 +8,12 @@
   <%# if notification.user == current_user || visitor.id && notification.try!(&:user).try!(&:id) != current_user.id  %>
   <%# if Comment.where(send_user: current_user.id).pluck(:user_id).uniq.include?(current_user.id) && Comment.where(send_user: visitor.id).pluck(:user_id).uniq.include?(current_user.id) && Comment.where(send_user: notification.user&.id).pluck(:user_id).uniq.include?(current_user.id) && Comment.where(user_id: notification.user&.id).pluck(:send_user).uniq.include?(current_user.id) %>
 
-  <% if Comment.where(send_user: current_user.id).pluck(:user_id).uniq.include?(current_user.id) && Comment.where(send_user: notification.user&.id).pluck(:user_id).uniq.include?(current_user.id) && Comment.where(user_id: notification.user&.id).pluck(:send_user).uniq.include?(current_user.id) %>
+  <%# if  Comment.where(send_user: notification.user&.id).pluck(:user_id).uniq.include?(current_user.id) && Comment.where(user_id: notification.user&.id).pluck(:send_user).uniq.include?(current_user.id) && Comment.where(send_user: visitor).pluck(:user_id).uniq.include?(current_user.id)%>
+
+  <%# if Comment.where(send_user: visitor.id).pluck(:user_id).uniq.include?(current_user.id)  %>
+  <%# if Comment.where(user_id: notification.user&.id).pluck(:send_user).uniq.include?(visitor.id) && Comment.where(user_id: visitor.id).pluck(:send_user).uniq.include?(visitor.id) %>
+
+ <%# if Comment.joins(:notifications).where(notifications: { visited_id: current_user }) %>
 
   <%# binding.pry %>
     <div class="form-inline">
@@ -47,7 +52,8 @@
       <%= time_ago_in_words(notification.created_at).upcase %>
     </div>
     <hr>
-  <% end %>
+  <%# end %>
+  <%# end %>
 
 <%# if false %>
   <% case notification.action %>
