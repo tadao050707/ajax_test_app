@@ -5,14 +5,9 @@
   <h7 style="color: black;">全削除</h7>
 <% end %>
 
-<%# notifications = @notifications.where.not(visitor_id: current_user.id) %>
-<%# notifications = @notifications.where.not(visitor_id: current_user.id) %>
-<%# notifications = @notifications.left_joins(:comment).where(comment: { user_id: current_user.id }) %>
-<% notifications = @notifications.joins(:comment).where(user_id: current_user.id ) %>
-<%# binding.irb %>
-<% if notifications.exists? %>
-<%# if notifications %>
+<% notifications = @notifications.where.not(visitor_id: current_user.id) %>
 
+<% if notifications.exists? %>
   <%= render notifications %>
   <%= paginate notifications, theme: 'twitter-bootstrap-4' %>
 <% else %>

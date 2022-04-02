@@ -22,5 +22,5 @@ import 'bootstrap';
 import '../stylesheets/application';
 
 $(function(){
-  $('.alert, .notice').fadeOut(7000);
+  $('.alert, .notice').fadeOut(8000);
 });
