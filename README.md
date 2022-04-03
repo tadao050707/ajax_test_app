@@ -49,8 +49,7 @@ https://docs.google.com/spreadsheets/d/1p-4gH3VgFhekgX1lC2MiXZKN0wNz557fkK3w08eH
 <br />
 
 ## ER図
-<img width="481" alt="ER9" src="https://user-images.githubusercontent.com/84718987/150064188-0f9fb5f9-ebdb-4a1b-b550-0fdd922c6422.png">
-
+<img width="601" alt="ER_se" src="https://user-images.githubusercontent.com/84718987/161429428-812cf0c8-b1dd-4252-b40e-c8c5cf653e24.png">
 <br />
 
 ## 画面遷移図
