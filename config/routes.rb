@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     resources :comments
     member do
       get 'mypage'
+      get 'view'
     end
   end
 

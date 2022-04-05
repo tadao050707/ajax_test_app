@@ -20,6 +20,28 @@ class UsersController < ApplicationController
 
     @join_annuals_cost = @fixed_costs.joins(:categories).where(monthly_annual: 1).or(@fixed_costs.joins(:categories).where(monthly_annual: 0)).group("categories.cat_name").sum(:payment)
     @join_annuals_cost.each { |key, value| @join_annuals_cost[key] = value * 12 }
+
+    # respond_to do |format|
+    #   format.js { render :show }
+    #   format.html { redirect_to user_path(current_user.id) }
+    # end
+  end
+
+  def view
+    user = User.find(params[:id])
+    @fixed_costs = user.fixed_costs
+    params[:monthly_view].nil? ? @monthly_view = "true" : @monthly_view = params[:monthly_view]
+
+    #viewから受け取ったパラメーターを年額表示にする
+    @join_monthlies_cost = @fixed_costs.joins(:categories).where(monthly_annual: 1).or(@fixed_costs.joins(:categories).where(monthly_annual: 0)).group("categories.cat_name").sum(:payment)
+
+    @join_annuals_cost = @fixed_costs.joins(:categories).where(monthly_annual: 1).or(@fixed_costs.joins(:categories).where(monthly_annual: 0)).group("categories.cat_name").sum(:payment)
+    @join_annuals_cost.each { |key, value| @join_annuals_cost[key] = value * 12 }
+
+    # respond_to do |format|
+    #   format.js { render :show }
+    #   format.html { redirect_to user_path(current_user.id) }
+    # end
   end
 
   def edit

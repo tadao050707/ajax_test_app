@@ -21,8 +21,21 @@
         <% else %>
           <%= link_to "月額表示", user_path(params[:id], monthly_view: "true"), class: "btn btn-primary btn-sm" %>
         <% end %>
+        <!-- user: @userはパーシャルで使うためにローカル変数に代入している -->
         <%= render 'relationships/follow_form', user: @user if current_user != @user %>
       </div>
+
+      <!-- Ajaxテスト -->
+      <div id="change_view">
+        <% if @monthly_view == "true" %>
+          <%= link_to "年額表示", user_path(params[:id], monthly_view: "false"), class: "btn btn-primary btn-sm annual_btn", remote: true %>
+        <% else %>
+          <%= link_to "月額表示", user_path(params[:id], monthly_view: "true"), class: "btn btn-primary btn-sm monthly_btn", remote: true %>
+        <% end %>
+      </div>
+
+      <%#= render 'view' %>
+
 
       <div class="graph mx-auto" style="width: 350px;">
         <% if @monthly_view == "true" %>

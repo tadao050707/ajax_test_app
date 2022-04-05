@@ -1,0 +1,13 @@
+<div id="view-btn">
+  <% if @monthly_view == "true" %>
+      <%= link_to "年額表示", view_user_path(params[:id], monthly_view: "false"), class: "btn btn-primary btn-sm", remote: true %>
+  <% else %>
+      <%= link_to "月額表示", view_user_path(params[:id], monthly_view: "true"), class: "btn btn-primary btn-sm", remote: true %>
+  <% end %>
+</div>
+
+<% if @monthly_view == "true" %>
+  <div class="view">
+
+  </div>
+  <%=  %>
