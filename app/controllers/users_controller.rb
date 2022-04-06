@@ -21,6 +21,8 @@ class UsersController < ApplicationController
     @join_annuals_cost = @fixed_costs.joins(:categories).where(monthly_annual: 1).or(@fixed_costs.joins(:categories).where(monthly_annual: 0)).group("categories.cat_name").sum(:payment)
     @join_annuals_cost.each { |key, value| @join_annuals_cost[key] = value * 12 }
 
+    @monthly_view = params[:monthly_view]
+    puts @monthly_view
     # respond_to do |format|
     #   format.js { render :show }
     #   format.html { redirect_to user_path(current_user.id) }
